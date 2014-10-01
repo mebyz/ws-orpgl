@@ -1,0 +1,64 @@
+[
+	{
+		"nodeId"	: "initialQuestion",
+		"botText"	: "Hello Sir, do you want to help me ?",
+		"answers"	: [
+			{
+				"playerText"	: "Yes ! tell me more about the job ?",
+				"nextNodeId"	: "nodeYes"
+			},
+			{
+				"playerText"	: "Nope. I'm busy at the moment.",
+				"nextNodeId"	: "nodeNo"
+			}
+		]
+	},
+	{
+		"nodeId"	: "nodeYes",
+		"botText"	: "Well, i have to feed my family. If you help me I'll give you a bag of 10 gems",
+		"answers"	: [
+			{
+				"playerText"	: "Ok ! what do you need ?",
+				"nextNodeId"	: "nodeMission"
+			},
+			{
+				"playerText"	: "10 gems is too low. give me more !",
+				"nextNodeId"	: "nodeNo"
+			},
+		],
+	},
+	{
+		"nodeId"	: "nodeMission",
+		"botText"	: "bring me 5 tomatoes, and that should be just fine.",
+		"answers"	: [
+			{
+				"playerText"	: "ok! give me a minute",
+				"nextNodeId"	: null
+			},
+			{
+				"playerText"	: "where can i find tomatoes ?",
+				"nextNodeId"	: "nodeAbout"
+			},
+		],
+	},
+	{
+		"nodeId"	: "nodeAbout",
+		"botText"	: "You find tomatoes on the ground, between grass and trees. its a common fruit out",
+		"answers"	: [
+			{
+				"playerText"	: "ok thanks !",
+				"nextNodeId"	: null
+			},
+		],
+	},
+	{
+		"nodeId"	: "nodeNo",
+		"botText"	: "Meh.. So Long.",
+		"answers"	: [
+			{
+				"playerText"	: "See you around, bird.",
+				"nextNodeId"	: null
+			}
+		]
+	},
+]

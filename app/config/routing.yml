@@ -1,0 +1,4 @@
+my_orpgl:
+    resource: "@MyOrpglBundle/Resources/config/routing.yml"
+    prefix:   /
+
