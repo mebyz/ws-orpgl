@@ -53,14 +53,13 @@ class Chat implements MessageComponentInterface {
     public function onMessage(ConnectionInterface $from, $msg) {
     	$phpid=$from->Session->get('name');
         $numRecv = count($this->clients) - 1;
-        echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
-            , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
+        echo $phpid.':'.$msg."\n";
 			$this->positions[$phpid]=explode(',', $msg);
 			file_put_contents('/tmp/pos_'.$phpid, $msg);
         foreach ($this->clients as $client) {
             if ($from !== $client) {
                 // The sender is not the receiver, send to each client connected
-                $client->send($msg);
+                $client->send($phpid.':'.$msg);
             }
         }
     }
@@ -69,7 +68,7 @@ class Chat implements MessageComponentInterface {
     	$phpid=$conn->Session->get('name');
         // The connection is closed, remove it, as we can no longer send it messages
         $this->clients->detach($conn);
-		echo "position:".json_encode($this->positions[$phpid])."\n";
+		echo $phpid.':'.implode(',',$this->positions[$phpid])."\n";
         echo "Connection {$conn->resourceId} has disconnected\n";
     }
 

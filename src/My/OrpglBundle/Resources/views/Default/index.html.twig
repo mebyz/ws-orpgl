@@ -346,7 +346,6 @@ conn.onopen = function(e) {
 };
 
 conn.onmessage = function(e) {
-    //alert(e.data);
     var scope = angular.element(document.getElementById("content-frame")).scope();
         scope.$apply(function() {
       if (e.data.substring(0, 4)=='POS:')
@@ -354,20 +353,13 @@ conn.onmessage = function(e) {
 var res = e.data.substring(4).split(",");
         scope.logs[scope.logs.length] = e.data;
 setTimeout(function(){
-
     app.Config.yawObject.position.x=(res[0]-1);
     app.Config.yawObject.position.y=(res[1]-1);
     app.Config.yawObject.position.z=(res[2]-1);
-//    app.Config.yawObject.position.x=res[0];
-//app.Config.yawObject.position.y=res[1];
-//app.Config.yawObject.position.z=res[2];
-},5000);
+},1000);
 }
-//      app.Config.camera.position.y=100
      });
   
- //   var et = document.getElementById('chat');
- //   et.innerHTML+=e.data;
 };
 </script>
 <div style="position:relative;">

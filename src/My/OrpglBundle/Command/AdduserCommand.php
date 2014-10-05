@@ -31,9 +31,9 @@ class AdduserCommand extends ContainerAwareCommand
         $factory = $this->getContainer()->get('security.encoder_factory');
 
     $user = new \My\OrpglBundle\Entity\User();
-    $username='manu';
-    $email='emmanuel.botros@gmail.com';
-    $password='pouet';
+    $username='manu2';
+    $email='emmanuel2.botros@gmail.com';
+    $password='pouet2';
     $encoder = $factory->getEncoder($user);
     $user->setSalt(md5(time()));
     $pass = $encoder->encodePassword($password, $user->getSalt());

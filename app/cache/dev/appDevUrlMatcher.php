@@ -127,29 +127,20 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             return array (  '_controller' => 'My\\OrpglBundle\\Controller\\DefaultController::indexAction',  '_route' => 'my_orpgl_homepage',);
         }
 
-        // _welcome1
+        // _server
         if (0 === strpos($pathinfo, '/server') && preg_match('#^/server/(?P<name>[^/]++)$#s', $pathinfo, $matches)) {
-            return $this->mergeDefaults(array_replace($matches, array('_route' => '_welcome1')), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\WelcomeController::indexAction',));
+            return $this->mergeDefaults(array_replace($matches, array('_route' => '_server')), array (  '_controller' => 'My\\OrpglBundle\\Controller\\WelcomeController::indexAction',));
         }
 
-        if (0 === strpos($pathinfo, '/demo')) {
-            // _demo
-            if (rtrim($pathinfo, '/') === '/demo') {
-                if (substr($pathinfo, -1) !== '/') {
-                    return $this->redirect($pathinfo.'/', '_demo');
-                }
-
-                return array (  '_controller' => 'Acme\\DemoBundle\\Controller\\DemoController::indexAction',  '_route' => '_demo',);
+        if (0 === strpos($pathinfo, '/login')) {
+            // login
+            if ($pathinfo === '/login') {
+                return array (  '_controller' => 'AcmeSecurityBundle:Security:login',  '_route' => 'login',);
             }
 
-            // _demo_hello
-            if (0 === strpos($pathinfo, '/demo/hello') && preg_match('#^/demo/hello/(?P<name>[^/]++)$#s', $pathinfo, $matches)) {
-                return $this->mergeDefaults(array_replace($matches, array('_route' => '_demo_hello')), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\DemoController::helloAction',));
-            }
-
-            // _demo_contact
-            if ($pathinfo === '/demo/contact') {
-                return array (  '_controller' => 'Acme\\DemoBundle\\Controller\\DemoController::contactAction',  '_route' => '_demo_contact',);
+            // login_check
+            if ($pathinfo === '/login_check') {
+                return array (  '_controller' => 'My\\OrpglBundle\\Controller\\WelcomeController::indexAction',  '_route' => 'login_check',);
             }
 
         }

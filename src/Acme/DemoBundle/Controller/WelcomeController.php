@@ -70,7 +70,7 @@ $storage = new NativeSessionStorage(array(), new MemcacheSessionHandler($memcach
 $session = new Session($storage);
 $session->start();
 
-$session->set('name','XXXOX');
+$session->set('name',$name);
 return $this->redirect($this->generateUrl('my_orpgl_homepage'));
 //return;
 //        return $this->render('AcmeDemoBundle:Welcome:index.html.twig', array('name'=>$name));

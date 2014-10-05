@@ -78,5 +78,6 @@
   'DoctrineBundle:Collector:db.html.twig' => '/Users/manu/dev/sf/project/vendor/doctrine/doctrine-bundle/Doctrine/Bundle/DoctrineBundle/Resources/views/Collector/db.html.twig',
   'DoctrineBundle:Collector:explain.html.twig' => '/Users/manu/dev/sf/project/vendor/doctrine/doctrine-bundle/Doctrine/Bundle/DoctrineBundle/Resources/views/Collector/explain.html.twig',
   'MyOrpglBundle:Default:index.html.twig' => '/Users/manu/dev/sf/project/src/My/OrpglBundle/Resources/views/Default/index.html.twig',
+  'MyOrpglBundle:Default:login.html.twig' => '/Users/manu/dev/sf/project/src/My/OrpglBundle/Resources/views/Default/login.html.twig',
   '::base.html.twig' => '/Users/manu/dev/sf/project/app/Resources/views/base.html.twig',
 );
