@@ -235,7 +235,8 @@ mousemov=false
             app.Config.yawObject.position.y =height+5;
         if (height<=-64 && app.Config.yawObject.position.x != 0 && app.Config.yawObject.position.z!=0) {
             if(!app.Config.underwaterInterval) {
-                app.Config.underwaterInterval = setInterval(function () {$('#painDiv').css("visibility","").effect( "pulsate", {times:1,mode:'hide'}, 350 );app.Config.ctext.health-=10;
+                app.Config.underwaterInterval = setInterval(function () {$('#painDiv').css("visibility","").effect( "pulsate", {times:1,mode:'hide'}, 350 );
+                    //app.Config.ctext.health-=10;
                         var contentFrame = document.getElementById("content-frame");
                 var appScope = angular.element(contentFrame).scope();
 appScope.$apply(function(){

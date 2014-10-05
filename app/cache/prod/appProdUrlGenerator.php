@@ -13,7 +13,7 @@ use Psr\Log\LoggerInterface;
 class appProdUrlGenerator extends Symfony\Component\Routing\Generator\UrlGenerator
 {
     private static $declaredRoutes = array(
-        'my_orpgl_homepage' => array (  0 =>   array (  ),  1 =>   array (    '_controller' => 'My\\OrpglBundle\\Controller\\DefaultController::indexAction',  ),  2 =>   array (  ),  3 =>   array (    0 =>     array (      0 => 'text',      1 => '/',    ),  ),  4 =>   array (  ),  5 =>   array (  ),),
+        'my_orpgl_homepage' => array (  0 =>   array (  ),  1 =>   array (    '_controller' => 'My\\OrpglBundle\\Controller\\DefaultController::indexAction',  ),  2 =>   array (  ),  3 =>   array (    0 =>     array (      0 => 'text',      1 => '/run',    ),  ),  4 =>   array (  ),  5 =>   array (  ),),
     );
 
     /**

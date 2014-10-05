@@ -28,11 +28,7 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
         $request = $this->request;
 
         // my_orpgl_homepage
-        if (rtrim($pathinfo, '/') === '') {
-            if (substr($pathinfo, -1) !== '/') {
-                return $this->redirect($pathinfo.'/', 'my_orpgl_homepage');
-            }
-
+        if ($pathinfo === '/run') {
             return array (  '_controller' => 'My\\OrpglBundle\\Controller\\DefaultController::indexAction',  '_route' => 'my_orpgl_homepage',);
         }
 

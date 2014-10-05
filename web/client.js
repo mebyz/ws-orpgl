@@ -308,9 +308,9 @@ function me () {
   }, "json");
 }
 
-$(document).ready(function() {
+/*$(document).ready(function() {
   longPoll();
-});
+});*/
 
 $(window).unload(function () {
   jQuery.get("/part", {id: CONFIG.id}, function (data) { }, "json");

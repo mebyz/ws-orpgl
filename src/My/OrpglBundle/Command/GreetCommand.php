@@ -12,7 +12,8 @@ use Ratchet\ConnectionInterface;
 use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
-
+use Ratchet\Session\SessionProvider;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler;
 
 class Chat implements MessageComponentInterface {
     protected $clients;
@@ -24,8 +25,12 @@ class Chat implements MessageComponentInterface {
     }
 
     public function onOpen(ConnectionInterface $conn) {
-
-    	$phpid=$conn->WebSocket->request->getCookies()['PHPSESSID'];
+    	//var_dump($conn->WebSocket->request->getUrl(true)->getParts());
+    	//$conn->Session->set('id',rand(1,100));
+        var_dump($conn->Session->get('name'));
+//        var_dump($conn->Session);
+        // die();
+    	$phpid=$conn->Session->get('name');
 		$f='/tmp/pos_'.$phpid;
     	echo $phpid;
         // Store the new connection to send messages to later
@@ -39,13 +44,14 @@ class Chat implements MessageComponentInterface {
     	}
         else {
         	echo "position:".$tp."\n";
+           $conn->send("POS:".$tp);
         }
         echo "New connection! ({$conn->resourceId})\n";
 
     }
 
     public function onMessage(ConnectionInterface $from, $msg) {
-    	$phpid=$from->WebSocket->request->getCookies()['PHPSESSID'];
+    	$phpid=$from->Session->get('name');
         $numRecv = count($this->clients) - 1;
         echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
             , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
@@ -60,7 +66,7 @@ class Chat implements MessageComponentInterface {
     }
 
     public function onClose(ConnectionInterface $conn) {
-    	$phpid=$conn->WebSocket->request->getCookies()['PHPSESSID'];
+    	$phpid=$conn->Session->get('name');
         // The connection is closed, remove it, as we can no longer send it messages
         $this->clients->detach($conn);
 		echo "position:".json_encode($this->positions[$phpid])."\n";
@@ -87,24 +93,28 @@ class GreetCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
        
+$memcache = new \Memcache();
+    $memcache->connect('localhost', 11211);
 
+//$cacheDriver = new \Doctrine\Common\Cache\ApcCache();
+
+$session = new SessionProvider(
+    new Chat()
+  , new Handler\MemcacheSessionHandler($memcache)
+);
 
 
     $server = IoServer::factory(
         new HttpServer(
             new WsServer(
-                new Chat()
+              $session  
             )
         ),
         8080
     );
 
     $server->run();
-        $server = IoServer::factory(
-        	new Chat(),
-    	    8080
-	    );
-
-	    $server->run();
+     
+    $server->route('/sessDemo', $session);
     }
 }

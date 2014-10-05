@@ -19,6 +19,7 @@ return array(
     'SensioLabs\\Security' => array($vendorDir . '/sensiolabs/security-checker'),
     'Ratchet' => array($vendorDir . '/cboden/ratchet/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
+    'Lsw\\MemcacheBundle' => array($vendorDir . '/leaseweb/memcache-bundle'),
     'Incenteev\\ParameterHandler' => array($vendorDir . '/incenteev/composer-parameter-handler'),
     'Guzzle\\Stream' => array($vendorDir . '/guzzle/stream'),
     'Guzzle\\Parser' => array($vendorDir . '/guzzle/parser'),

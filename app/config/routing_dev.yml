@@ -21,7 +21,7 @@ _welcome:
     resource: "@MyOrpglBundle/Resources/config/routing.yml"
 
 _welcome1:
-    path:     /server
+    path:     /server/{name}
     defaults: { _controller: AcmeDemoBundle:Welcome:index }
 
 _demo:

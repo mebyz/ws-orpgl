@@ -119,7 +119,7 @@ var getWindMaterial = function(dx,dy,dz) {
       uniforms["diffuse"].value = new THREE.Color(0XFFFFFF);
       uniforms["ambient"].value = new THREE.Color(0x000000);
       uniforms["specular"].value = new THREE.Color(0x000000);
-      uniforms["map"].value = material.map = THREE.ImageUtils.loadTexture("textures/grass_billboard.png");
+      uniforms["map"].value = material.map = THREE.ImageUtils.loadTexture("../textures/grass_billboard.png");
       uniforms["tWindForce"].value = noiseMap;
       uniforms["windScale"].value = 1;
       uniforms["windMin"].value = new THREE.Vector2(-30, -30);

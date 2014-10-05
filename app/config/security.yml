@@ -4,6 +4,7 @@ security:
     # http://symfony.com/doc/current/book/security.html#encoding-the-user-s-password
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
+        My\OrpglBundle\Entity\User: sha512
 
     # http://symfony.com/doc/current/book/security.html#hierarchical-roles
     role_hierarchy:
@@ -17,6 +18,9 @@ security:
                 users:
                     user:  { password: userpass, roles: [ 'ROLE_USER' ] }
                     admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
+
+        administrators:
+            entity: { class: MyOrpglBundle:User, property: username }
 
     # the main part of the security, where you can set up firewalls
     # for specific sections of your app
@@ -45,8 +49,15 @@ security:
             #http_basic:
             #    realm: "Secured Demo Area"
 
+      
+        admin_area:
+            pattern:    ^/admin
+            http_basic: ~
+
     # with these settings you can restrict or allow access for different parts
     # of your application based on roles, ip, host or methods
     # http://symfony.com/doc/current/book/security.html#security-book-access-control-matching-options
-    access_control:
+#    access_control:
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+    access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }

@@ -123,17 +123,13 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
         }
 
         // my_orpgl_homepage
-        if (rtrim($pathinfo, '/') === '') {
-            if (substr($pathinfo, -1) !== '/') {
-                return $this->redirect($pathinfo.'/', 'my_orpgl_homepage');
-            }
-
+        if ($pathinfo === '/run') {
             return array (  '_controller' => 'My\\OrpglBundle\\Controller\\DefaultController::indexAction',  '_route' => 'my_orpgl_homepage',);
         }
 
         // _welcome1
-        if ($pathinfo === '/server') {
-            return array (  '_controller' => 'Acme\\DemoBundle\\Controller\\WelcomeController::indexAction',  '_route' => '_welcome1',);
+        if (0 === strpos($pathinfo, '/server') && preg_match('#^/server/(?P<name>[^/]++)$#s', $pathinfo, $matches)) {
+            return $this->mergeDefaults(array_replace($matches, array('_route' => '_welcome1')), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\WelcomeController::indexAction',));
         }
 
         if (0 === strpos($pathinfo, '/demo')) {

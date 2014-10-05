@@ -20,7 +20,8 @@
         "incenteev/composer-parameter-handler": "~2.0",
 	"cboden/ratchet": "0.3.*",
 	"jquery/jquery": "1.9.1",
-    	"twitter/bootstrap": "2.3.*"
+    	"twitter/bootstrap": "2.3.*",
+        "leaseweb/memcache-bundle": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
