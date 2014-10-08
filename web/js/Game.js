@@ -191,6 +191,11 @@ var initGrass = function() {
                 app.Config.scene.add(child);
                 child.updateMatrixWorld(true);
                 app.Config.nature.trees.push(child);
+
+                var helper = new THREE.BoundingBoxHelper(child, 0xff0000);
+                helper.update();
+                // If you want a visible bounding box
+                app.Config.scene.add(helper);
             }
         }
  //       document.body.innerHTML=natureIndex;
@@ -341,6 +346,7 @@ appScope.$apply(function(){
         if (app == undefined) return;
         var delta = app.Config.clock.getDelta();
         var time = app.Config.clock.getElapsedTime();
+
 
 //        app.Config.character.update( delta, false );
         if (app.Config.raven)

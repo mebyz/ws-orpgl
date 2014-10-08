@@ -114,6 +114,6 @@ $session = new SessionProvider(
 
     $server->run();
      
-    $server->route('/sessDemo', $session);
+    $server->route('/launch', $session);
     }
 }
