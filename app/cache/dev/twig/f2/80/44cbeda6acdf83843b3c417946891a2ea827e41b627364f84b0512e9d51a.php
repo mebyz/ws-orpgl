@@ -57,6 +57,8 @@ class __TwigTemplate_f28044cbeda6acdf83843b3c417946891a2ea827e41b627364f84b0512e
      function HudState(\$scope) {
 
         initScene();
+        setTimeout(\"\$('#screenplane').fadeOut(5000);\",10000);
+        
 
         \$scope.health = 100;
         \$scope.ammo = 0;
@@ -128,12 +130,11 @@ class __TwigTemplate_f28044cbeda6acdf83843b3c417946891a2ea827e41b627364f84b0512e
 
     #log {
         top: 10px;
-        left: 10px;
+        right: 10px;
         background: #33AA33;
-        overflow: auto;
-        width: 300px;
-        height: 100px;
-        font-size: 11pt;
+        width: 200px;
+        height: 50px;
+        font-size: 10px;
     }
 
     #stats {
@@ -191,9 +192,26 @@ class __TwigTemplate_f28044cbeda6acdf83843b3c417946891a2ea827e41b627364f84b0512e
 
     body {overflow: hidden; }
 
+    #screenplane {
+        position:absolute;
+        background: black;
+        top:0px;
+        left:0px;
+        width:100%;
+        height:100%;
+        z-index: 10000;
+    }
+
 </style>
 </head>
 <body ng-app=\"map\">
+<div id=\"screenplane\">
+<center><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+    <img src=\"/sf/project/web/spinner.gif\" /><br/><br/>
+    <h1 style=\"color:white;\">LOADING ...</h1>
+</center>
+</div>
+
     <div class='wrap'>
         <div id=\"webgl\" style=\"position:absolute;top:0px;left:0px;\"></div>
         <div id=\"content-frame\" ng-controller=\"HudState\">
@@ -213,15 +231,7 @@ class __TwigTemplate_f28044cbeda6acdf83843b3c417946891a2ea827e41b627364f84b0512e
                 </div>
             </div>
         </div>
-        
-        <div id=\"wait\" class=\"wait\" style=\"display: none;\">Please wait for the engine to initialize ..</div>
-
-        <div id=\"app\">
-          <div id=\"log\"></div>
-      </div>
-
-
-
+    
       <div id=\"painDiv\" style=\"position:absolute;top:0px;left:0px;width:100%;height:100%;background: url(&quot;../textures/blood.png&quot;) repeat scroll 0 0 transparent; opacity:0.2; visibility:hidden;\"></<div style=\"position:absolute;\">
         <div id=\"underwaterDiv\" style=\"position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; opacity: 0.8; visibility: hidden;\"></div>
 
@@ -391,14 +401,12 @@ v=v.split(\",\");
                     app.Config.character.root.position.x=(v[0]);
                     app.Config.character.root.position.y=(v[1]);
                     app.Config.character.root.position.z=(v[2]);
-//    var name =readCookie('name');
-//    console.log(name+\" | \"+e.data);
 }
 });
 
         };
     </script>
-    <div style=\"position:relative;\">
+    <div style=\"position:absolute;top:0px;left:0px;\">
         <img src=\"http://localhost:81/sf/project/web/orpgl-mapgen/images/tile_0_0.jpg\" style=\"position:absolute;top:    0px;left:   0px;width:  20px;height:  20px;\"/>
         <img src=\"http://localhost:81/sf/project/web/orpgl-mapgen/images/tile_0_1.jpg\" style=\"position:absolute;top:    0px;left:   20px;width:  20px;height:  20px;\"/>
         <img src=\"http://localhost:81/sf/project/web/orpgl-mapgen/images/tile_0_2.jpg\" style=\"position:absolute;top:    0px;left:   40px;width:  20px;height:  20px;\"/>
