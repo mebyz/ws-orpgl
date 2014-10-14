@@ -195,7 +195,7 @@ var initGrass = function() {
                 var helper = new THREE.BoundingBoxHelper(child, 0xff0000);
                 helper.update();
                 // If you want a visible bounding box
-                app.Config.scene.add(helper);
+                //app.Config.scene.add(helper);
             }
         }
  //       document.body.innerHTML=natureIndex;
