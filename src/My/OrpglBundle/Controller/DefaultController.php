@@ -14,15 +14,7 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-/*$memcache = new \Memcache();
-$memcache->connect('localhost', 11211);
-    	$storage = new NativeSessionStorage(array(), new MemcacheSessionHandler($memcache));
-		$session = new Session($storage);
-		$session->start();
-
-		$name= $session->get('name');*/
-    	$response=$this->render('MyOrpglBundle:Default:index.html.twig'/*, array('name' => $name)*/);
-//    	$response->headers->setCookie(new Cookie('name', $name,time() + 60, '/', null, false, false));
+    	$response=$this->render('MyOrpglBundle:Default:index.html.twig');
 
         return $response;
     }

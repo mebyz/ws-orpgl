@@ -20,16 +20,6 @@ class WelcomeController extends Controller
     {
         
       $request = $this->getRequest();
-        /*$session = $request->getSession();
-        
-
-        // get the login error if there is one
-        if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
-            $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
-        } else {
-            $error = $session->get(SecurityContext::AUTHENTICATION_ERROR);
-            $session->remove(SecurityContext::AUTHENTICATION_ERROR);
-        }*/
         
         /*
          * The action's view can be rendered using render() method
@@ -68,14 +58,10 @@ if (!$user) {
  return $this->render('MyOrpglBundle:Default:login.html.twig', array('last_username' =>$username,'error'=>array('message'=>'wrong username or password')));
 } 
 else {
-/*	var_dump($user);
-die();*/
 
 $defaultEncoder = new MessageDigestPasswordEncoder('sha512', true, 5000);
 $encoders = array(
-    'My\OrpglBundle\Entity\User' => $defaultEncoder,
-
-    // ...
+    'My\OrpglBundle\Entity\User' => $defaultEncoder
     );
 
 $encoderFactory = new EncoderFactory($encoders);
@@ -110,7 +96,5 @@ $session->start();
 
 $session->set('name',$username);
 return $this->redirect($this->generateUrl('my_orpgl_homepage'));
-//return;
-//        return $this->render('AcmeDemoBundle:Welcome:index.html. 
 }
 }
