@@ -354,7 +354,7 @@
         }
         document.getElementById('btn').onclick=function(){conn.send(document.getElementById('tx').value);};
 
-        var conn = new WebSocket('ws://localhost:8080/launch');
+        var conn = new WebSocket('ws://localhost:8081/launch');
        
         conn.onerror = function(error) {
             document.location='/app_dev.php/login_check';

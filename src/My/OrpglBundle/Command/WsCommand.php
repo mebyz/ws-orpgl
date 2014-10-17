@@ -42,7 +42,7 @@ class WsCommand extends Command
                   $session  
                   )
                 ),
-            8080
+            8081
             );
 
         $server->run();
