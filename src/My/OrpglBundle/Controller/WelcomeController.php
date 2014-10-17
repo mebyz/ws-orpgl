@@ -37,7 +37,7 @@ class WelcomeController extends Controller
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_URL => 'http://localhost:8080/launch',
+            CURLOPT_URL => 'http://'.$_SERVER['SERVER_ADDR'].':8081/launch',
             CURLOPT_USERAGENT => 'Codular Sample cURL Request'
             ));
         $resp = curl_exec($curl);
