@@ -325,7 +325,10 @@ if(willsend == true) {
         conn.send('NPOS:'+this.Config.myPos.x+','+this.Config.myPos.y+','+this.Config.myPos.z)
                 //send(JSON.stringify(this.Config.myPos, replacer));
 
-                        jQuery('#mpos').css({top:Math.round(this.Config.myPos.z/50)+'px',left:Math.round(this.Config.myPos.x/50)+'px'});
+                        jQuery('#mpos').css({top:(Math.round(this.Config.myPos.z/50)-6)+'px',left:(Math.round(this.Config.myPos.x/50)-3)+'px'});
+
+//jQuery('#zzoom').parent().css({'top':-(Math.round(this.Config.myPos.z/50)-50)+'px','left':-(Math.round(this.Config.myPos.x/50)-50)+'px',})
+//jQuery('#zzoom').parent().css({'clip':'rect(0px '+(100+(Math.round(this.Config.myPos.z/50))+50)+'px '+(100+(Math.round(this.Config.myPos.x/30))+50)+'px 0px)'})
 
         }
                 }
