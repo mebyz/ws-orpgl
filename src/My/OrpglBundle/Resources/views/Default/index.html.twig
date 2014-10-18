@@ -38,7 +38,7 @@
        function HudState($scope) {
 
         initScene();
-        setTimeout("$('#screenplane').fadeOut(5000);",5000);
+        setTimeout("$('#screenplane').fadeOut(5000);",7000);
         
 
         $scope.health = 100;
@@ -212,7 +212,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div id="painDiv" style="position:absolute;top:0px;left:0px;width:100%;height:100%;background: url(&quot;../textures/blood.png&quot;) repeat scroll 0 0 transparent; opacity:0.2; visibility:hidden;"></<div style="position:absolute;">
             <div id="underwaterDiv" style="position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; opacity: 0.8; visibility: hidden;"></div>
 
@@ -415,7 +415,7 @@ conn.onopen = function() {
 
 function setReadyState() {
   //console.log('conn.readyState: ' + conn.readyState);
-  setTimeout('conn.send("POS");',4000);
+  setTimeout('conn.send("POS");',500);
 }
 
 

@@ -1,7 +1,7 @@
 
 var initGrass = function() {
     var loader = new THREE.OBJLoader( );
-    
+
 
 
     loader.load( '/models/buildings/grassfield4.obj', function ( object) {
@@ -167,7 +167,7 @@ loader.load( '/models/buildings/grassfield3.obj', function ( object) {
                     var r = natureIndex[i];
                     var child = app.Config.nature_models[r].clone();
                     child.scale.set(2,2,2);
-
+//                    var conf = jQuery.getJSON()
                     child.name="nature_"+i;
 
                     //console.log((child.id)+" :XXXX "+child.material.map.image.src+" "+natureArray[i].x+'  / '+  natureArray[i].y +' / '+ natureArray[i].z)
@@ -178,12 +178,12 @@ loader.load( '/models/buildings/grassfield3.obj', function ( object) {
 
                     var helper = new THREE.BoundingBoxHelper(child, 0xff0000);
                     helper.name="box_nature_"+i;
-                    child.bbox=helper
-                    helper.obj=child
+                    //child.bbox=helper
+                    //helper.obj=child
     //                console.log(helper.box)
-    helper.update();
+//    helper.update();
                     // If you want a visible bounding box
-                    app.Config.scene.add(helper);
+  //                  app.Config.scene.add(helper);
                 }
             }
      //       document.body.innerHTML=natureIndex;
@@ -339,8 +339,14 @@ if(willsend == true) {
 
         if ( intersects.length > 0 ) {
             if (intersects[ 0 ].object.name != '') {
-                if (intersects[ 0 ].object.name != lastseenObject)
+                if (intersects[ 0 ].object.name != lastseenObject) {
                     console.log(intersects[ 0 ].object.name+' at '+intersects[ 0 ].distance+' meters');
+
+                    if (intersects[ 0 ].object.material != "undefined")
+                        if (intersects[ 0 ].object.material.map != null)
+                    console.log(intersects[ 0 ].object.material.map.sourceFile);
+                }
+
                 lastseenObject = intersects[ 0 ].object.name;
 
             }
@@ -394,7 +400,7 @@ if(willsend == true) {
 
  app.Config.Sea.material.uniforms.time.value += delta;
  app.Config.controls.update(Date.now() - time);
- 
+
  var count = 0;
 
  var v = Math.cos(time / 300) % 1;
@@ -698,6 +704,7 @@ if(willsend == true) {
                alphaTest: 0.5,side: 
                THREE.DoubleSide
            });
+
             loader.load( fobj, function ( object , ftext) {
                 object.traverse( function ( child ) {
                     if ( child instanceof THREE.Mesh ) {
@@ -814,7 +821,7 @@ if(willsend == true) {
         //CLOUDS
         launchClouds(this);
 
-    loadI = setInterval("if (app.Config.lazyloaded==178) {clearInterval(loadI);lt=0;if(1){/*app.Config.yawObject.rotation.y=JSON.parse(CONFIG.data[0].data).ry;app.Config.yawObject.position.x=JSON.parse(CONFIG.data[0].data).x;app.Config.yawObject.position.z=JSON.parse(CONFIG.data[0].data).z;*/}loadNature();play('/js/audio/jasmid/bjorn__lynne-_the_fairy_woods.mid');$('#wait').hide();app.Config.lastheight = getHeight(app.Config.yawObject.position.x,app.Config.yawObject.position.z,true)+1;}",1000);
+    loadI = setInterval("if (app.Config.lazyloaded==178) {console.log('assets loaded!');clearInterval(loadI);lt=0;loadNature();play('/js/audio/jasmid/bjorn__lynne-_the_fairy_woods.mid');$('#wait').hide();app.Config.lastheight = getHeight(app.Config.yawObject.position.x,app.Config.yawObject.position.z,true)+1;}",2000);
 
 
     var config = {
