@@ -1,3 +1,5 @@
+
+var  mouseVector = new THREE.Vector3();
 THREE.PointerLockControls = function(application) {
 
     var scope = this;
@@ -26,15 +28,11 @@ THREE.PointerLockControls = function(application) {
 
 
     var  projector = new THREE.Projector();
-    var  mouseVector = new THREE.Vector3();
     var onMouseMove = function(event) {
 
                 
                 mouseVector.x = 2 * (event.clientX / window.innerWidth) - 1;
-                mouseVector.y = 1 - 2 * ( event.clientY / window.innerHeight );
-
-
-                
+                mouseVector.y = 1 - 2 * ( event.clientY / window.innerHeight );                
         
         if(scope.enabled === false) {
             return;
@@ -62,8 +60,8 @@ THREE.PointerLockControls = function(application) {
                         var intersection = intersects[ i ],
                                 obj = intersection.object;
 if (obj.material.color){//&& obj.position.distanceTo( app.Config.yawObject.position ) < 50) {
-    if (obj.id == 'clickme')
-        $( "#dialog" ).dialog( "open" ).html(runner.displayNode());
+/*    if (obj.id == 'clickme')
+        $( "#dialog" ).dialog( "open" ).html(runner.displayNode());*/
 //                        obj.material.color.setRGB( 1.0 - i / intersects.length, 0, 0 );
                         }
                 }
