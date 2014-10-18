@@ -325,8 +325,10 @@ if(willsend == true) {
         conn.send('NPOS:'+this.Config.myPos.x+','+this.Config.myPos.y+','+this.Config.myPos.z)
                 //send(JSON.stringify(this.Config.myPos, replacer));
 
-            }
+                        jQuery('#mpos').css({top:Math.round(this.Config.myPos.z/50)+'px',left:Math.round(this.Config.myPos.x/50)+'px'});
+
         }
+                }
 
         var render = function() {
 
@@ -340,14 +342,38 @@ if(willsend == true) {
         if ( intersects.length > 0 ) {
             if (intersects[ 0 ].object.name != '') {
                 if (intersects[ 0 ].object.name != lastseenObject) {
-                    console.log(intersects[ 0 ].object.name+' at '+intersects[ 0 ].distance+' meters');
+//                    console.log(intersects[ 0 ].object.name+' at '+intersects[ 0 ].distance+' meters');
+                    lastseenObject = intersects[ 0 ].object.name;
 
                     if (intersects[ 0 ].object.material != "undefined")
                         if (intersects[ 0 ].object.material.map != null)
-                    console.log(intersects[ 0 ].object.material.map.sourceFile);
-                }
+                    //console.log(intersects[ 0 ].object.material.map.sourceFile);
+                    var cf =intersects[ 0 ].object.material.map.sourceFile
+                    cf = cf.substring(0,cf.lastIndexOf('/')+1);
+                    var val = 'init';
 
-                lastseenObject = intersects[ 0 ].object.name;
+        var scope = angular.element(document.getElementById("content-frame")).scope();
+        scope.$apply(function(){
+jQuery.ajax({
+    url: cf+'conf.json',
+    cache: false,
+    dataType: 'json',
+    success: function(data) {
+                if (scope.logs.length>5)
+                    scope.logs.splice(0, 1);
+                scope.logs[scope.logs.length-1] = "you see "+data.name+' at '+Math.round(intersects[ 0 ].distance/50)+' meters';
+            },
+    error: function (request, status, error) {
+                scope.logs[scope.logs.length-1] = 'you see something at '+Math.round(intersects[ 0 ].distance/50)+' meters';
+       
+
+            }
+});
+});
+
+
+
+                }
 
             }
     /*                    if ( INTERSECTED != intersects[ 0 ].object ) {
