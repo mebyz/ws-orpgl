@@ -61,6 +61,15 @@ class WsProvider implements MessageComponentInterface {
                     case "POS":
                             $from->send("POS:".implode(",",$this->positions[$phpid]));
                         break;
+                    case "CHAT":
+                        //BROADCAST to other connected players !
+                        foreach ($this->clients as $client) {
+                            if ($from !== $client) {
+                                echo "BROADCAST\n";
+                                $client->send('UCHAT:'.$phpid.':'.$premsga[1]);
+                            }
+                        }
+                        break;
                     case "NPOS":
                         $this->positions[$phpid]=explode(',', $premsga[1]);
                         file_put_contents('/tmp/pos_'.$phpid, $premsga[1]);

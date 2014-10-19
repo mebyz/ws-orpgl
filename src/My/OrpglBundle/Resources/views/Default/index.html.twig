@@ -47,6 +47,14 @@
         $scope.logs = [
         "1:01:01 - You've spotted the beach",
         ];
+        $scope.chats = [];
+
+        $scope.addmessage = function (data) {
+                $scope.chats[$scope.chats.length] = 'You say: '+data;
+            };
+        $scope.receivemessage = function (name,data) {
+                $scope.chats[$scope.chats.length] = name+' says: '+data;
+            };
 
         $scope.style = {
             visible: true,
@@ -83,7 +91,7 @@
         display: block;
     }
 
-    #health, #ammo, #log {
+    #health, #ammo, #log, #chat {
         position: absolute;
         border: 3px solid #FFF;
         border-radius: 5px;
@@ -117,6 +125,14 @@
         height: 50px;
         font-size: 10px;
     }
+    #chat {
+        top: 100px;
+        right: 10px;
+        background: #33AA33;
+        width: 200px;
+        height: 50px;
+        font-size: 10px;
+    }
 
     #stats {
         float: right;
@@ -131,6 +147,9 @@
     }
 
     .transparent #log {
+        background: rgba(20, 120, 20, 0.5);
+    }
+    .transparent #chat {
         background: rgba(20, 120, 20, 0.5);
     }
     @-moz-keyframes heartbeat {
@@ -206,7 +225,11 @@
                             <b>Scrolls:</b> {[{ammo}]}
                         </div>
                         <div id="log">
-                            <div ng-repeat="log in logs">{[{log}]}</div>
+                            <div ng-repeat="log in logs track by $index">{[{log}]}</div>
+                        </div>
+                        <div id="chat">
+                            <input type="text" name="chatinput" id="chatinput" onclick="$(this).focus()" onkeydown="if (event.keyCode == 13) { conn.send('CHAT:'+this.value);angular.element(this).scope().addmessage(this.value)}"/>
+                            <div id="cdiv" ng-repeat="chat in chats track by $index">{[{chat}]}</div>
                         </div>
                     </div>
                 </div>
@@ -386,6 +409,16 @@ setTimeout(function(){
 },1000);
 
 }
+
+if (e.data.substring(0,6)=='UCHAT:')
+{     
+    var res = e.data.substring(6).split(":");
+    if (angular.element(document.getElementById("cdiv")).scope()!="undefined")
+    angular.element(document.getElementById("cdiv")).scope().receivemessage(res[0],res[1]);
+}
+
+
+
 if (e.data.substring(0,5)=='UPOS:')
 {     
     var res = e.data.substring(5).split(":");
