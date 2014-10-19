@@ -153,7 +153,7 @@ var noiseOffsetSpeed = 0.11;
         format: THREE.RGBFormat
       });
       noiseShader = new NoiseShader();
-      noiseShader.uniforms.vScale.value.set(0.3, 0.3);
+      noiseShader.uniforms.vScale.value.set(0.1, 0.1);
       noiseScene = new THREE.Scene();
       noiseCameraOrtho = new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, -10000, 10000);
       noiseCameraOrtho.position.z = 100;
@@ -165,6 +165,6 @@ var noiseOffsetSpeed = 0.11;
         lights: false
       });
       noiseQuadTarget = new THREE.Mesh(new THREE.PlaneGeometry(window.innerWidth, window.innerHeight, 100, 100), noiseMaterial);
-      noiseQuadTarget.position.z = -500;
+      noiseQuadTarget.position.z = -1000;
       return noiseScene.add(noiseQuadTarget);
     };

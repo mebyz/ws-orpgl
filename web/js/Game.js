@@ -200,7 +200,7 @@ loader.load( '/models/buildings/grassfield3.obj', function ( object) {
         material
         );
      app.Config.scene.add(app.Config.wep);
-     app.Config.sounds[0] = new Sound( [ '../sounds/sea.mp3'], 4500, 0.3 );
+/*     app.Config.sounds[0] = new Sound( [ '../sounds/sea.mp3'], 4500, 0.3 );
      app.Config.sounds[0].position.set(0,10,0);
      app.Config.sounds[0].playsea();
      app.Config.sounds[1] = new Sound( [ '../sounds/sea.mp3'], 4500, 0.3 );
@@ -212,7 +212,7 @@ loader.load( '/models/buildings/grassfield3.obj', function ( object) {
      app.Config.sounds[3] = new Sound( [ '../sounds/sea.mp3'], 4500, 0.3 );
      app.Config.sounds[3].position.set(10000,10,10000);
      app.Config.sounds[3].playsea();
-
+*/
      setTimeout("initNoiseShader();initGrass();app.Config.character.setAnimation('stand');",500);
 
      var config = {
@@ -323,10 +323,10 @@ if(willsend == true) {
  if (conn!=null) 
     if (conn.readyState === 1) 
         conn.send('NPOS:'+this.Config.myPos.x+','+this.Config.myPos.y+','+this.Config.myPos.z)
-                //send(JSON.stringify(this.Config.myPos, replacer));
-
-                        jQuery('#mpos').css({top:(Math.round(this.Config.myPos.z/50)-6)+'px',left:(Math.round(this.Config.myPos.x/50)-3)+'px'});
-
+        //send(JSON.stringify(this.Config.myPos, replacer));
+        jQuery('#mpos').css({top:(Math.round(this.Config.myPos.z/50)-6)+'px',left:(Math.round(this.Config.myPos.x/50)-3)+'px'});
+//$("#zzoom").css({'transform-origin':(Math.round(this.Config.myPos.z/45)-10)+' '+(Math.round(this.Config.myPos.x/45)-10)})
+//jQuery('#zzoom').css({'transform': 'translate '+(-(Math.round(this.Config.myPos.z/50)-50))+' '+(-(Math.round(this.Config.myPos.x/50)-50))})
 //jQuery('#zzoom').parent().css({'top':-(Math.round(this.Config.myPos.z/50)-50)+'px','left':-(Math.round(this.Config.myPos.x/50)-50)+'px',})
 //jQuery('#zzoom').parent().css({'clip':'rect(0px '+(100+(Math.round(this.Config.myPos.z/50))+50)+'px '+(100+(Math.round(this.Config.myPos.x/30))+50)+'px 0px)'})
 
@@ -352,10 +352,25 @@ if(willsend == true) {
                         if (intersects[ 0 ].object.material.map != null)
                     //console.log(intersects[ 0 ].object.material.map.sourceFile);
                     var cf =intersects[ 0 ].object.material.map.sourceFile
-                    cf = cf.substring(0,cf.lastIndexOf('/')+1);
+                    cf = cf.substring(0,cf.lastIndexOf('/'));
                     var val = 'init';
+var scope = angular.element(document.getElementById("content-frame")).scope();
+        scope.$apply(function(){
+                    cf = cf.substring(cf.lastIndexOf('/')+1);
+                if (scope.logs.length>5)
+                    scope.logs.splice(0, 1);
 
-        var scope = angular.element(document.getElementById("content-frame")).scope();
+                var atree ={'t_palmtree1':'a big palm tree',
+                            't_palmtree2':'a big palm tree',
+                            't_palmtree3':'a big palm tree',
+                            't_palmtree4':'a big palm tree',
+                            't_palmtree5':'a big palm tree'
+                            };
+
+                scope.logs[scope.logs.length-1] = 'you see '+atree[cf]+' at '+Math.round(intersects[ 0 ].distance/50)+' meters';
+});
+
+/*        var scope = angular.element(document.getElementById("content-frame")).scope();
         scope.$apply(function(){
 jQuery.ajax({
     url: cf+'conf.json',
@@ -372,7 +387,7 @@ jQuery.ajax({
 
             }
 });
-});
+});*/
 
 
 
@@ -432,8 +447,16 @@ jQuery.ajax({
 
  var count = 0;
 
- var v = Math.cos(time / 300) % 1;
+ var v = Math.cos(time /20.5) % 1;
  var e = v;
+var scope = angular.element(document.getElementById("content-frame")).scope();
+        scope.$apply(function(){
+                        if (scope.logs.length>5)
+                    scope.logs.splice(0, 1);
+
+
+                scope.logs[scope.logs.length-1] = 'v:'+v;
+});
  app.Config.skyUniforms.bottomColor.value.r = e;
  app.Config.skyUniforms.bottomColor.value.g = e;
  app.Config.skyUniforms.bottomColor.value.b = e;
@@ -525,14 +548,14 @@ jQuery.ajax({
         }
         */
 
-        app.Config.Sunlight.position.x =  app.Config.yawObject.position.x+(Math.cos((time + 200 ) / 200) * 390);
-        app.Config.lensFlare.position.x = app.Config.yawObject.position.x+(Math.cos((time + 200 ) / 200) * 390);
+        app.Config.Sunlight.position.x =  app.Config.yawObject.position.x+(Math.cos((time - 90 ) / 20) * 390);
+        app.Config.lensFlare.position.x = app.Config.yawObject.position.x+(Math.cos((time - 90 ) / 20) * 390);
 
         app.Config.Sunlight.position.z =  app.Config.yawObject.position.z;
         app.Config.lensFlare.position.z =  app.Config.yawObject.position.z;
 
-        app.Config.Sunlight.position.y = (Math.sin((time + 200 ) / 200) * 390);
-        app.Config.lensFlare.position.y = (Math.sin((time + 200 ) / 200) * 390);
+        app.Config.Sunlight.position.y = (Math.sin((time - 90 ) / 20) * 390);
+        app.Config.lensFlare.position.y = (Math.sin((time - 90 ) / 20) * 390);
         app.Config.sky.position = app.Config.yawObject.position;
         app.Config.SeaMesh.position.x = app.Config.yawObject.position.x;
         app.Config.SeaMesh.position.z = app.Config.yawObject.position.z;
@@ -693,13 +716,16 @@ jQuery.ajax({
             topColor   : { type: "c", value: new THREE.Color(0x0077ff) },
             bottomColor: { type: "c", value: new THREE.Color(0xffffff) },
             offset     : { type: "f", value: 33 },
-            exponent   : { type: "f", value: 0.6 }
+            exponent   : { type: "f", value: 0.6 },
+            fogColor:    { type: "c", value: 0xffffaa },
+            fogNear:     { type: "f", value: 1 },
+            fogFar:      { type: "f", value: 100 }
         }
         this.Config.skyUniforms.topColor.value.copy(hemiLight.color);    
         //console.log('ok2')
 
         var skyGeo = new THREE.SphereGeometry(9000, 32, 15);
-        var skyMat = new THREE.ShaderMaterial({ vertexShader: skyVertexShader, fragmentShader: skyFragmentShader, uniforms: this.Config.skyUniforms, side: THREE.BackSide });
+        var skyMat = new THREE.ShaderMaterial({ vertexShader: skyVertexShader, fragmentShader: skyFragmentShader, uniforms: this.Config.skyUniforms, side: THREE.BackSide,fog:true });
 
         this.Config.sky = new THREE.Mesh(skyGeo, skyMat);
         this.Config.scene.add(this.Config.sky);
@@ -761,19 +787,20 @@ jQuery.ajax({
 
         this.Config.Sea = new THREE.FlatMirror(this.Config.renderer, this.Config.camera, {
             clipBias    : 1,
-            textureWidth: 800, textureHeight: 600,
+            textureWidth: 512, textureHeight: 512,
             color       : 0x333366,
             baseTexture : loadImage("/textures/water001.png"),
-            baseSpeed   : 0.01,
+            baseSpeed   : 0.005,
             noiseTexture: noiseTexture,
-            noiseScale  : 0.2,
+            noiseScale  : 0.8,
             alpha       : 0.7,
             time        : 0.0,
+            fog:true
         });
         //console.log('ok2er')
 
         this.Config.SeaMesh = new THREE.Mesh(
-            new THREE.PlaneGeometry(10000, 10000, 100, 100),
+            new THREE.PlaneGeometry(7000, 7000, 80, 80),
             this.Config.Sea.material
             );
         this.Config.SeaMesh.add(this.Config.Sea);
@@ -824,9 +851,9 @@ jQuery.ajax({
                     grassTexture:   { type: "t", value: grassTexture },
                     rockyTexture:   { type: "t", value: rockyTexture },
                     snowyTexture:   { type: "t", value: snowyTexture },
-                    fogColor:    { type: "c", value: 0xffffaa },
+                    fogColor:    { type: "c", value: 0xaaaaaa },
                     fogNear:     { type: "f", value: 1 },
-                    fogFar:      { type: "f", value: 100 },
+                    fogFar:      { type: "f", value: 10 },
                 };
 
                 var material = new THREE.ShaderMaterial( 
@@ -850,7 +877,7 @@ jQuery.ajax({
         //CLOUDS
         launchClouds(this);
 
-    loadI = setInterval("if (app.Config.lazyloaded==178) {console.log('assets loaded!');clearInterval(loadI);lt=0;loadNature();play('/js/audio/jasmid/bjorn__lynne-_the_fairy_woods.mid');$('#wait').hide();app.Config.lastheight = getHeight(app.Config.yawObject.position.x,app.Config.yawObject.position.z,true)+1;}",2000);
+    loadI = setInterval("if (app.Config.lazyloaded==178) {console.log('assets loaded!');clearInterval(loadI);lt=0;loadNature();/*play('/js/audio/jasmid/bjorn__lynne-_the_fairy_woods.mid');*/$('#wait').hide();app.Config.lastheight = getHeight(app.Config.yawObject.position.x,app.Config.yawObject.position.z,true)+1;}",2000);
 
 
     var config = {

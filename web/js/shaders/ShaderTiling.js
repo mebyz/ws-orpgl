@@ -35,7 +35,7 @@ THREE.ShaderChunk[ "fog_pars_fragment" ],
 "vec4 rocky = (smoothstep(0.30, 0.40, vAmount) - smoothstep(0.50, 0.60, vAmount)) * texture2D( rockyTexture, vUV * 20.0 );",
 "vec4 snowy = (smoothstep(0.40, 0.75, vAmount))                                   * texture2D( snowyTexture, vUV * 10.0 );",
 "vec4 tx = texture2D( heightMap, vUV);",  
-"gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0) + water + sandy + grass + rocky + snowy; //, 1.0);",
+"gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0) + water *0.6 + sandy *0.6 + grass *0.9 + rocky *0.6 + snowy*0.6 ; //, 1.0);",
 THREE.ShaderChunk[ "fog_fragment" ],
 "}"
 ].join("\n");

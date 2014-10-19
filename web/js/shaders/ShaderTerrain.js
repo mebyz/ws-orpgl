@@ -43,7 +43,7 @@ THREE.ShaderTerrain = {
 			"uDiffuseColor": { type: "c", value: new THREE.Color( 0xeeeeee ) },
 			"uSpecularColor": { type: "c", value: new THREE.Color( 0x111111 ) },
 			"uAmbientColor": { type: "c", value: new THREE.Color( 0x050505 ) },
-			"uShininess": { type: "f", value: 30 },
+			"uShininess": { type: "f", value: 3 },
 			"uOpacity": { type: "f", value: 1 },
 
 			"uRepeatBase"    : { type: "v2", value: new THREE.Vector2( 1, 1 ) },
@@ -323,6 +323,7 @@ THREE.ShaderTerrain = {
 			"varying vec3 vViewPosition;",
 
 			THREE.ShaderChunk[ "shadowmap_pars_vertex" ],
+        	THREE.ShaderChunk[ "fog_fragment" ],
 
 			"void main() {",
 
@@ -367,6 +368,7 @@ THREE.ShaderTerrain = {
 				"vNormal = normalMatrix * normalTex;",
 
 				THREE.ShaderChunk[ "shadowmap_vertex" ],
+        		THREE.ShaderChunk[ "fog_fragment" ],
 
 			"}"
 

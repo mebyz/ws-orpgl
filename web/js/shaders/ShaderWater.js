@@ -11,7 +11,7 @@ THREE.ShaderLib['mirror'] = {
                 "time":         { type: "f", value: 0.0 },
                 "fogColor":    { type: "c", value: 0xB5D8FF },
                 "fogNear":     { type: "f", value: 1 },
-                "fogFar":      { type: "f", value: 100 },
+                "fogFar":      { type: "f", value: 30 },
                 "textureMatrix" : { type: "m4", value: new THREE.Matrix4() }
     },
 
@@ -35,7 +35,7 @@ THREE.ShaderLib['mirror'] = {
             "vec2 uvTimeShift = vUV + vec2( 1.1, 1.9 ) * time * 0.05;", // bumpSpeed;",
             "vec4 bumpData = texture2D( noiseTexture, uvTimeShift );",
             
-            "float displacement = bumpData.g * 5.0;", // bumpScale
+            "float displacement = bumpData.g * 50.0;", // bumpScale
             "vec3 bumpedPosition = position + normal * displacement;",
     
             "vec4 mvPosition = modelViewMatrix * vec4( bumpedPosition, 1.0 );",
@@ -71,17 +71,17 @@ THREE.ShaderLib['mirror'] = {
         "void main() {",
 
             "vec4 color = texture2DProj(mirrorSampler, mirrorCoord);",
-            "color = vec4(blendOverlay(mirrorColor.r, color.r), blendOverlay(mirrorColor.g, color.g), blendOverlay(mirrorColor.b, color.b), 1.0);",
-            "color.a = alpha;", // 337
+            "vec4 color2 = vec4(blendOverlay(mirrorColor.r, color.r), blendOverlay(mirrorColor.g, color.g), blendOverlay(mirrorColor.b, color.b), 1.0);",
+            "color2.a = alpha;", // 337
             
             "vec2 uvTimeShift = vUV + vec2( -0.7, 1.5 ) * time * baseSpeed;",
             "vec4 noiseGeneratorTimeShift = texture2D( noiseTexture, uvTimeShift );",
             "vec2 uvNoiseTimeShift = vUV + noiseScale * vec2( noiseGeneratorTimeShift.r, noiseGeneratorTimeShift.b );",
             "vec4 baseColor = texture2D( baseTexture, uvNoiseTimeShift );",
 
-            // "gl_FragColor = color;",
+             //"gl_FragColor = color;",
             // "gl_FragColor = texture2D( overlayTexture, vUV );",
-            "gl_FragColor = baseColor * 0.5 + color * 0.5;",
+            "gl_FragColor = baseColor * 0.4 + color * 0.1 + color2 * 0.5;",
             
 
         THREE.ShaderChunk[ "fog_fragment" ],
