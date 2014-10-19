@@ -67,7 +67,8 @@ class WsProvider implements MessageComponentInterface {
                         //BROADCAST new pos to other connected players !
                         foreach ($this->clients as $client) {
                             if ($from !== $client) {
-                                $client->send($phpid.':'.$premsga[1]);
+                                echo "BROADCAST\n";
+                                $client->send('UPOS:'.$phpid.':'.$premsga[1]);
                             }
                         }
                         break;

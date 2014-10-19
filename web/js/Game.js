@@ -416,7 +416,7 @@ jQuery.ajax({
                     var time = app.Config.clock.getElapsedTime();
 
 
-    //        app.Config.character.update( delta, false );
+            app.Config.character.update( delta, false );
     if (app.Config.raven)
         app.Config.raven.update( delta, true );
     if (app.Config.tr)
