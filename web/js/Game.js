@@ -164,7 +164,7 @@ loader.load( '/models/buildings/grassfield3.obj', function ( object) {
                 
                 if (natureArray[i].y>-40 && natureArray[i].y<80) {
 
-                    var r = natureIndex[i];
+                    var r = natureIndex[i]-1;
                     var child = app.Config.nature_models[r].clone();
                     child.scale.set(2,2,2);
 //                    var conf = jQuery.getJSON()
@@ -214,7 +214,24 @@ loader.load( '/models/buildings/grassfield3.obj', function ( object) {
      app.Config.sounds[3].playsea();
 */
      setTimeout("initNoiseShader();initGrass();/*app.Config.character.setAnimation('stand');*/",500);
+/*
+var config = {
 
+        baseUrl: "/models/avatars/",
+
+        body: "knight.js",
+        skins: [ "knight.jpg"],
+        weapons:  [ 
+        ["knightweapon.js","knightweapon.png"]
+        ]
+
+    };
+ players['me'].characterObject = new THREE.MD2Character();
+    players['me'].characterObject.scale = 3;
+    players['me']].characterObject.loadParts( config );
+    players['me'].characterObject.root.scale.set(0.18,0.18,0.18);
+    this.Config.scene.add( players['me'].characterObject.root ); 
+*/
      var config = {
 
         baseUrl: "/models/avatars/",
@@ -225,6 +242,7 @@ loader.load( '/models/buildings/grassfield3.obj', function ( object) {
         ]
 
     };
+
     app.Config.raven = new THREE.MD2Character();
     app.Config.raven.scale = 3;
     app.Config.raven.loadParts( config );
@@ -420,8 +438,15 @@ var currentTime = new Date();
 
                     var time = (app.Config.clock.getElapsedTime()+milliseconds)/200;
 
+for (var key in players) {
+ if (key!='me') {
+   var obj = players[key];
+   if (obj != 'undefined')
+   obj.characterObject.update( delta, false );
+   }
+}
 
-            app.Config.character.update( delta, false );
+//            app.Config.character.update( delta, false );
     if (app.Config.raven)
         app.Config.raven.update( delta, true );
     if (app.Config.tr)
@@ -878,7 +903,7 @@ var currentTime = new Date();
     loadI = setInterval("if (app.Config.lazyloaded==178) {console.log('assets loaded!');clearInterval(loadI);lt=0;loadNature();/*play('/js/audio/jasmid/bjorn__lynne-_the_fairy_woods.mid');*/$('#wait').hide();app.Config.lastheight = getHeight(app.Config.yawObject.position.x,app.Config.yawObject.position.z,true)+1;}",2000);
 
 
-    var config = {
+  /*  var config = {
 
         baseUrl: "/models/avatars/",
 
@@ -889,13 +914,13 @@ var currentTime = new Date();
         ]
 
     };
-
-    this.Config.character = new THREE.MD2Character();
+//this.Config.character={}
+   this.Config.character = new THREE.MD2Character();
     this.Config.character.scale = 3;
     this.Config.character.loadParts( config );
     this.Config.character.root.scale.set(0.18,0.18,0.18);
 
-    this.Config.scene.add( this.Config.character.root );  
+    this.Config.scene.add( this.Config.character.root );  */
     animate();
 };
 

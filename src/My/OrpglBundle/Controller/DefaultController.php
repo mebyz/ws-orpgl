@@ -14,6 +14,15 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
+    	$memcache = new \Memcache();
+$memcache->connect('localhost', 11211);
+
+$storage = new NativeSessionStorage(array(), new MemcacheSessionHandler($memcache));
+$session = new Session($storage);
+$session->start();
+    	if($session->get('name')=='')
+    		return $this->redirect($this->generateUrl('login_check'));
+
     	$response=$this->render('MyOrpglBundle:Default:index.html.twig');
         return $response;
     }

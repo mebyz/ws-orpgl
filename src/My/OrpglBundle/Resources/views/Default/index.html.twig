@@ -381,7 +381,7 @@
 
         <input type="text" name="tx" id="tx" /> <input type="button" value="send" id="btn" />
         <script>
-            var players = ["me"];
+            var players = {"me":{}};
             var run=false;
             var conTime = 0;
             var cdelta = 0;
@@ -429,7 +429,7 @@ return ghours+':'+gminutes;
 
            conn.onerror = function(error) {
             document.location='/app_dev.php/login_check';
-        };
+        }
 
         conn.onmessage = function(e) {
 //            console.log(e.data);
@@ -471,10 +471,14 @@ if (e.data.substring(0,6)=='UCHAT:')
 if (e.data.substring(0,5)=='UPOS:')
 {     
     var res = e.data.substring(5).split(":");
-
-  if (players.indexOf(res[0])==-1) {
+//alert(res[0])
+var found=false;
+for(var key in players)
+{if (key==res[0])found=true;}
+  if (!found) {
         // BUILD PLAYER LOCALLY HERE
-        players.push(res[0]);
+        players[res[0]]={};
+
         // PLAYER NAME
         var canvas1 = document.createElement('canvas');
         var context1 = canvas1.getContext('2d');
@@ -497,26 +501,43 @@ if (e.data.substring(0,5)=='UPOS:')
          );
         app.Config.tr1.id = 'tr1';
         app.Config.scene.add( app.Config.tr1 );
+        players[res[0]].nameObject = app.Config.tr1;
+        var config = {
 
+            baseUrl: "/models/avatars/",
+
+            body: "knight.js",
+            skins: [ "knight.jpg"],
+            weapons:  [ 
+            ["knightweapon.js","knightweapon.png"]
+            ]
+
+        };
+        players[res[0]].characterObject = new THREE.MD2Character();
+    players[res[0]].characterObject.scale = 3;
+    players[res[0]].characterObject.loadParts( config );
+    players[res[0]].characterObject.root.scale.set(0.18,0.18,0.18);
+    this.Config.scene.add( players[res[0]].characterObject.root ); 
     }
                 
-        res = res[1];
+        var res2 = res[1];
 
-        var res = res.split(",");
+         res2 = res2.split(",");
         //        console.log(res)
         if (!run) {
             run=true;
-            app.Config.character.setAnimation('run');
-            setTimeout("run=false;app.Config.character.setAnimation('stand');",500)
+            //app.Config.character.setAnimation('run');
+            //setTimeout("run=false;app.Config.character.setAnimation('stand');",500)
         }
         //                scope.logs[scope.logs.length] = e.data;
-        app.Config.character.root.position.x=parseInt(res[0]);
-        app.Config.character.root.position.y=parseInt(res[1]);
-        app.Config.character.root.position.z=parseInt(res[2]);
-                                                
-        app.Config.tr1.position.x= app.Config.character.root.position.x;
-        app.Config.tr1.position.z= app.Config.character.root.position.z;
-        app.Config.tr1.position.y = app.Config.character.root.position.y+20;
+    
+        players[res[0]].characterObject.root.position.x=parseInt(res2[0]);
+        players[res[0]].characterObject.root.position.y=parseInt(res2[1]);
+        players[res[0]].characterObject.root.position.z=parseInt(res2[2]);
+                                              
+        players[res[0]].nameObject.position.x= players[res[0]].characterObject.root.position.x;
+        players[res[0]].nameObject.position.z= players[res[0]].characterObject.root.position.z;
+        players[res[0]].nameObject.position.y = players[res[0]].characterObject.root.position.y+20;
         
     }
             });
