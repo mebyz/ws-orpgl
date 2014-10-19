@@ -577,8 +577,8 @@ for (var key in players) {
         app.Config.Sunlight.position.z =  app.Config.yawObject.position.z;
         app.Config.lensFlare.position.z =  app.Config.yawObject.position.z;
 
-        app.Config.Sunlight.position.y = (Math.sin((time - 90 ) / 20) * 390);
-        app.Config.lensFlare.position.y = (Math.sin((time - 90 ) / 20) * 390);
+        app.Config.Sunlight.position.y = (Math.sin((time +2000 ) / 20) * 390);
+        app.Config.lensFlare.position.y = (Math.sin((time+2000 ) / 20) * 390);
         app.Config.sky.position = app.Config.yawObject.position;
         app.Config.SeaMesh.position.x = app.Config.yawObject.position.x;
         app.Config.SeaMesh.position.z = app.Config.yawObject.position.z;
