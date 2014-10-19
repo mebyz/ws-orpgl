@@ -213,7 +213,7 @@ loader.load( '/models/buildings/grassfield3.obj', function ( object) {
      app.Config.sounds[3].position.set(10000,10,10000);
      app.Config.sounds[3].playsea();
 */
-     setTimeout("initNoiseShader();initGrass();app.Config.character.setAnimation('stand');",500);
+     setTimeout("initNoiseShader();initGrass();/*app.Config.character.setAnimation('stand');*/",500);
 
      var config = {
 
@@ -449,14 +449,7 @@ jQuery.ajax({
 
  var v = Math.cos(time /20.5) % 1;
  var e = v;
-var scope = angular.element(document.getElementById("content-frame")).scope();
-        scope.$apply(function(){
-                        if (scope.logs.length>5)
-                    scope.logs.splice(0, 1);
 
-
-                scope.logs[scope.logs.length-1] = 'v:'+v;
-});
  app.Config.skyUniforms.bottomColor.value.r = e;
  app.Config.skyUniforms.bottomColor.value.g = e;
  app.Config.skyUniforms.bottomColor.value.b = e;
@@ -903,8 +896,8 @@ var scope = angular.element(document.getElementById("content-frame")).scope();
 
 function launchClouds(application) {
  var texture = loadImage('/textures/clouds001.png');
- texture.magFilter = THREE.LinearMipMapLinearFilter;
- texture.minFilter = THREE.LinearMipMapLinearFilter;
+// texture.magFilter = THREE.LinearMipMapLinearFilter;
+// texture.minFilter = THREE.LinearMipMapLinearFilter;
 
  application.Config.particleGroup = new ShaderParticleGroup({
     texture: texture,

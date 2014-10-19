@@ -29,7 +29,7 @@ THREE.MD2Character = function () {
 
 	this.activeAnimation = null;
 	
-	this.onLoadComplete = function () {this.setAnimation('stand');this.setWeapon(0);};
+	this.onLoadComplete = function () {/*this.setAnimation('stand');this.setWeapon(0);*/};
 	this.getAttackInterval = function () {return this.attackInterval;};
 
 	this.loadCounter = 0;
@@ -214,7 +214,7 @@ THREE.MD2Character = function () {
 		if (!onlyanim) {
 
 
-		if (dist > 1000)
+/*		if (dist > 1000)
 		{
 			if (!this.stand && this.norun) {
 				console.log("stand");
@@ -283,7 +283,7 @@ THREE.MD2Character = function () {
 				//this.root.rotation.y=-this.root.rotation.y
 
 			}
-		}
+		}*/
 		
 }
 		this.root.position.y=getHeight(this.root.position.x,this.root.position.z)+15;	
