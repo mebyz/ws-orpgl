@@ -39,10 +39,12 @@
 
         initScene();
         setTimeout("$('#screenplane').fadeOut(5000);",7000);
-        
+        setInterval("getConnTime()",1000);
+        setInterval("conn.send('ST')",10000)
 
         $scope.health = 100;
         $scope.ammo = 0;
+        $scope.clock = '-:-';
         $scope.clipSize = 50;
         $scope.logs = [
         "1:01:01 - You've spotted the beach",
@@ -91,7 +93,7 @@
         display: block;
     }
 
-    #health, #ammo, #log, #chat {
+    #health, #ammo, #log, #chat,#clock  {
         position: absolute;
         border: 3px solid #FFF;
         border-radius: 5px;
@@ -110,6 +112,14 @@
 
     #ammo {
         bottom: 10px;
+        right: 10px;
+        background: #3333AA;
+        font-size: 20pt;
+        font-weight: bold;
+        padding: 5px;
+    } 
+    #clock {
+        bottom: 50px;
         right: 10px;
         background: #3333AA;
         font-size: 20pt;
@@ -147,6 +157,10 @@
     }
 
     .transparent #log {
+        background: rgba(20, 120, 20, 0.5);
+    }
+
+    .transparent #clock {
         background: rgba(20, 120, 20, 0.5);
     }
     .transparent #chat {
@@ -223,6 +237,9 @@
                         </div>
                         <div id="ammo">
                             <b>Scrolls:</b> {[{ammo}]}
+                        </div>
+                        <div id="clock">
+                            <b>Clock:</b> {[{clock}]}
                         </div>
                         <div id="log">
                             <div ng-repeat="log in logs track by $index">{[{log}]}</div>
@@ -366,6 +383,26 @@
         <script>
             var players = ["me"];
             var run=false;
+            var conTime = 0;
+            var cdelta = 0;
+            var stime = 0;
+var milliseconds=0;
+function getConnTime() {
+var currentTime = new Date();
+     milliseconds = currentTime-conTime-cdelta+stime;
+    var gminutes = Math.floor((milliseconds / (1000))%60);
+    var ghours   =  Math.floor((milliseconds / (1000*60)) % 24);
+//    stime = milliseconds;
+var scope = angular.element(document.getElementById("content-frame")).scope();
+scope.$apply(function(){
+
+    
+
+    scope.clock=("0" + ghours).slice(-2)+':'+("0" + gminutes).slice(-2);
+});
+
+return ghours+':'+gminutes;
+}
             function readCookie(name) {
                 var nameEQ = name + "=";
                 var ca = document.cookie.split(';');
@@ -408,6 +445,18 @@ setTimeout(function(){
     app.Config.yawObject.position.z=(res[2]-1);
 },1000);
 
+}
+if (e.data.substring(0,3)=='ST:')
+{     
+    var res = e.data.substring(3);
+    scope.clock=res
+
+    var res = res.split(":");
+    var currentTime = new Date();
+    conTime = new Date('2014', '01', '01', '00', res[0], res[1])
+    cdelta = currentTime-conTime;
+    stime = parseInt(res[0])*60*1000+ parseInt(res[1])*1000;
+    
 }
 
 if (e.data.substring(0,6)=='UCHAT:')
@@ -480,6 +529,7 @@ conn.onopen = function() {
 
 function setReadyState() {
   //console.log('conn.readyState: ' + conn.readyState);
+  setTimeout('conn.send("ST");',1500);
   setTimeout('conn.send("POS");',1500);
 }
 

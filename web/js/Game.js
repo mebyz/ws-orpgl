@@ -413,7 +413,12 @@ jQuery.ajax({
                     }
                     if (app == undefined) return;
                     var delta = app.Config.clock.getDelta();
-                    var time = app.Config.clock.getElapsedTime();
+
+var currentTime = new Date();
+     milliseconds = currentTime-conTime-cdelta+stime;
+
+
+                    var time = (app.Config.clock.getElapsedTime()+milliseconds)/200;
 
 
             app.Config.character.update( delta, false );
