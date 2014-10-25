@@ -1,4 +1,6 @@
-sudo php app/console cache:clear --env=dev --no-debug
-sudo php app/console cache:clear --env=prod --no-debug
+sudo rm -rf app/cache/dev/*
+sudo rm -rf app/cache/prod/*
+#sudo php app/console cache:clear --env=dev --no-debug
+#sudo php app/console cache:clear --env=prod --no-debug
 sudo chmod -R 777 app/cache
 sudo chmod -R 777 app/logs
