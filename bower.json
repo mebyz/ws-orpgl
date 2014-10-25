@@ -1,0 +1,16 @@
+{
+"name": "ws-orpgl",
+"version": "0.1.0",
+"authors": [
+"username <emmanuel.botros@gmail.com>"
+],
+"description": "ws-orpgl",
+"license": "CC by sa 3.0",
+"ignore": [
+ ],
+"dependencies": {
+ "bootstrap":"latest",
+ "jQuery":"latest",
+ "angular":"latest"
+ }
+}    

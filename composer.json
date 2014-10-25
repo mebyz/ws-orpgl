@@ -18,28 +18,14 @@
         "sensio/distribution-bundle": "~3.0",
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
-	"cboden/ratchet": "0.3.*",
-	"jquery/jquery": "1.9.1",
-    	"twitter/bootstrap": "2.3.*",
-        "leaseweb/memcache-bundle": "dev-master"
+	    "cboden/ratchet": "0.3.*",
+	    "leaseweb/memcache-bundle": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
     },
 
-"repositories": [
-    {
-        "type": "package",
-        "package": {
-            "name": "jquery/jquery",
-            "version": "1.9.1",
-            "dist": {
-                "url": "http://code.jquery.com/jquery-1.9.1.min.js",
-                "type": "file"
-            }
-        }
-    }
-],
+
     "scripts": {
         "post-root-package-install": [
             "SymfonyStandard\\Composer::hookRootPackageInstall"
