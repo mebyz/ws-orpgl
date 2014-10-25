@@ -16,7 +16,7 @@ module.exports = function(grunt) {
                 stderr: false
             },
             target: {
-                command: 'bower --allow-root install &&  mkdir -p web/js2 && rm -rf web/js2/* && mv -f bower_components/** web/js2/ && rm -rf bower_components && grunt --force'
+                command: 'bower --allow-root install &&  mkdir -p web/js2 && rm -rf web/js2/* && mv -f bower_components/** web/js2/'
             }
         }
     });
