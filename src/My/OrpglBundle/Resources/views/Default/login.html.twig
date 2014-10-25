@@ -1,13 +1,50 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+<link rel="stylesheet" href="/js2/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="/js2/bootstrap/dist/css/bootstrap-theme.min.css">
+<script src="/js2/jquery/dist/jquery.min.js"></script>
+<script src="/js2/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/js2/angular/angular.min.js"></script>
+<script type="text/javascript">
+    var myApp = angular.module('myApp', []);
+    myApp.controller('myController', function ($scope) {
+           
+    });
+</script>
+</head>
+<body>
+<div ng-controller="myController" class="ng-scope">
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">ORPGL</a>
+            </div>
+        </div>
+    </div>
+    <div class="container"
+        <div class="starter-template">
+
+
+<br/><br/><br/>
+
+
 {# src/Acme/SecurityBundle/Resources/views/Security/login.html.twig #}
 {% if error %}
-    <div>{{ error.message }}</div>
+    <h4>{{ error.message }}</h4>
 {% endif %}
 
 <form action="{{ path('login_check') }}" method="post">
     <label for="username">Login :</label>
     <input type="text" id="username" name="_username" value="{{ last_username }}" />
-
-    <label for="password">Mot de passe :</label>
+<br/>
+    <label for="password">Password :</label>
     <input type="password" id="password" name="_password" />
 
     {#
@@ -18,3 +55,9 @@
 
     <button type="submit">login</button>
 </form>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
