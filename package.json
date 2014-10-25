@@ -12,6 +12,7 @@
     "npm-shrinkwrap": "4.0.0"
   },
   "devDependencies": {
+    "iconv-lite":"",
     "grunt": "~0.4.5",
     "grunt-contrib-cssmin": "~0.7.0",
     "grunt-contrib-uglify": "~0.3.3",
