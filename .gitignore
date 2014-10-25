@@ -10,3 +10,6 @@
 /bin/
 /composer.phar
 /app/cache
+/node_modules
+/web/js2
+REVISION
