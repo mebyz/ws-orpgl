@@ -34,8 +34,6 @@
 
 <br/><br/><br/>
 
-
-{# src/Acme/SecurityBundle/Resources/views/Security/login.html.twig #}
 {% if error %}
     <h4>{{ error.message }}</h4>
 {% endif %}
@@ -43,7 +41,6 @@
 <form action="{{ path('login_check') }}" method="post">
     <label for="username">Login :</label>
     <input type="text" id="username" name="_username" value="{{ last_username }}" />
-<br/>
     <label for="password">Password :</label>
     <input type="password" id="password" name="_password" />
 

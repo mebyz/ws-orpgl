@@ -477,108 +477,39 @@ for (var key in players) {
 
  var count = 0;
 
- var v = Math.cos(time /20.5) % 1;
- var e = v;
+ var e = Math.cos(time /20.5) % 1;
 
  app.Config.skyUniforms.bottomColor.value.r = e;
  app.Config.skyUniforms.bottomColor.value.g = e;
  app.Config.skyUniforms.bottomColor.value.b = e;
+
  if (app != undefined)
     app.Config.scene.fog.color.setRGB(e / 2, e / 2, e / 2);
-     /*   for(var prop in myJSONUserPosArray2) {
-            //console.log(prop);
-            var tt = JSON.parse(myJSONUserPosArray2[prop])
-            if((    app.Config.lastPosition[prop] != myJSONUserPosArray2[prop]) && (prop != CONFIG.id)) {
-                var ry,xc, yc, zc = 0;
-                var nick = 'dummy';
-                for(var prop2 in tt) {
-                    if(prop2 = 'nick') {
-                        nick = tt[prop2];
-                    }
-                    if(prop2 = 'x') {
-                        xc = tt[prop2];
-                    }
-                    if(prop2 = 'y') {
-                        yc = tt[prop2];
-                    }
-                    if(prop2 = 'z') {
-                        zc = tt[prop2];
-                    }
-                    if(prop2 = 'ry') {
-                        ry = tt[prop2];
-                    }
-                    
-                }
 
-        if (loaded[prop]!=prop) {
-
-            var loader = new THREE.ColladaLoader();
-            loader.options.convertUpAxis = true;
-            loader.load( '/models/avatars/avatar001.dae', function ( collada ) {
-
-            daes[prop] = collada.scene;
-            skins[prop] = collada.skins[ 0 ];
-
-            daes[prop].scale.x = daes[prop].scale.y = daes[prop].scale.z = 0.018;
-            daes[prop].position.x=5500;
-            daes[prop].position.z=2200;
-
-            daes[prop].position.y=getHeight(daes[prop].position.x,daes[prop].position.z,true)-12;
-            daes[prop].updateMatrix();
-
-            var canvas1 = document.createElement('canvas');
-            var context1 = canvas1.getContext('2d');
-            context1.font = "Bold 50px Arial";    
-            canvas1.style.width='100px';
-            canvas1.style.height='20px';
-            context1.fillStyle = "rgba(50,0,100,0.95)";
-            context1.fillText(nick, 0, 50);
-            
-            // canvas contents will be used for a texture
-            var texture1 = new THREE.Texture(canvas1) 
-            texture1.needsUpdate = true;
-
-            var material1 = new THREE.MeshBasicMaterial( {map: texture1, alphaTest: 0.5, side:THREE.DoubleSide } );
-            material1.transparent = true;
-
-            mesh1s[prop] = new THREE.Mesh(
-                new THREE.PlaneGeometry(20,8),
-                material1
-                );
-            mesh1s[prop].position.set(daes[prop].position.x+20,daes[prop].position.y+30,daes[prop].position.z);
-            app.Config.scene.add( mesh1s[prop] );
-            app.Config.scene.add( daes[prop] );
-            loaded[prop]=prop;
-            loaded[CONFIG.id]=CONFIG.id;
-        });
-    }    
-
-
-
-
-                if (daes[prop]) {
-                    daes[prop].position.x=xc;
-                    daes[prop].position.z=zc;
-                    daes[prop].position.y=yc;
-                    daes[prop].rotation.y=-ry;
-                    mesh1s[prop].position.x=daes[prop].position.x+10;
-                    mesh1s[prop].position.y=daes[prop].position.y+30;
-                    mesh1s[prop].position.z=daes[prop].position.z;
-                }
-            }
-            app.Config.lastPosition[prop] = myJSONUserPosArray2[prop]
-
+        for (var i=0;i<100;i++) {
+           planes[i].material.uniforms.time.value = e;
+           if (planes[i].material.uniforms.time.value<0.2) planes[i].material.uniforms.time.value=0.2;
         }
-        */
+        for(var n in this.Config.nature_models) {
+this.Config.nature_models[n].material.color.r = e*2;
+this.Config.nature_models[n].material.color.g = e*2;
+this.Config.nature_models[n].material.color.b = e*2;
+        //    n.material.uniforms.time.value = e;
+        }
 
-        app.Config.Sunlight.position.x =  app.Config.yawObject.position.x+(Math.cos((time - 90 ) / 20) * 390);
-        app.Config.lensFlare.position.x = app.Config.yawObject.position.x+(Math.cos((time - 90 ) / 20) * 390);
 
+        app.Config.Sunlight.position.x =  app.Config.yawObject.position.x+(Math.cos((time+22000) / 20) * 390);
+        app.Config.lensFlare.position.x = app.Config.yawObject.position.x+(Math.cos((time+22000) / 20) * 390);
+        app.Config.Sunlight.position.y = (Math.sin((time+22000) / 20) * 390);
+        app.Config.lensFlare.position.y = (Math.sin((time+22000) / 20) * 390);
         app.Config.Sunlight.position.z =  app.Config.yawObject.position.z;
         app.Config.lensFlare.position.z =  app.Config.yawObject.position.z;
+        if ( app.Config.lensFlare.position.y < 35 ) { 
+            app.Config.lensFlare.position.y = 10000;
+        }
 
-        app.Config.Sunlight.position.y = (Math.sin((time +2000 ) / 20) * 390);
-        app.Config.lensFlare.position.y = (Math.sin((time+2000 ) / 20) * 390);
+
+
         app.Config.sky.position = app.Config.yawObject.position;
         app.Config.SeaMesh.position.x = app.Config.yawObject.position.x;
         app.Config.SeaMesh.position.z = app.Config.yawObject.position.z;
@@ -658,6 +589,7 @@ for (var key in players) {
 
     var projector,raycaster,lastseenObject;
 
+var planes = [];
     var initScene = function() {
 
         projector = new THREE.Projector();
@@ -777,7 +709,7 @@ for (var key in players) {
         for(var index in nature_) {
             var fobj='../'+nature_[index].obj;
             //console.log(fobj)
-            var ftext = new THREE.MeshBasicMaterial({ map: loadImage('/'+nature_[index].png),
+            var ftext = new THREE.MeshLambertMaterial({ map: loadImage('/'+nature_[index].png),
                transparent: true, 
                alphaTest: 0.5,side: 
                THREE.DoubleSide
@@ -877,6 +809,7 @@ for (var key in players) {
                     fogColor:    { type: "c", value: 0xaaaaaa },
                     fogNear:     { type: "f", value: 1 },
                     fogFar:      { type: "f", value: 10 },
+                    time:         { type: "f", value: 1 },
                 };
 
                 var material = new THREE.ShaderMaterial( 
@@ -893,6 +826,7 @@ for (var key in players) {
                 plane.position.z = (1007*j)+512;
                 plane.position.x = (1007*i)+512;
                 this.Config.scene.add( plane );        
+                planes.push(plane);
             }
         }
 

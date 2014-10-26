@@ -54,7 +54,7 @@ function getHeight(x,z,cam){
 // LENS FLARE
 function addLight(h, s, l, x, y, z,texture,application) {
 
-    application.Config.Sunlight = new THREE.PointLight(0xffffff, 1.5, 4500);
+    application.Config.Sunlight = new THREE.PointLight(0xffffff, 500, 50);
     application.Config.Sunlight.color.setHSL(h, s, l);
     application.Config.Sunlight.position.set(x, y, z);
     application.Config.scene.add(application.Config.Sunlight);
