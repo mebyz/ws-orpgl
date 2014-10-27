@@ -78,61 +78,6 @@ loader.load( '/models/buildings/grassfield3.obj', function ( object) {
 });
 });
 
-    /*
-
-
-          var matrix = new THREE.Matrix4();
-
-          var worldWidth = 100, worldDepth = 100,
-          worldHalfWidth = worldWidth / 2, worldHalfDepth = worldDepth / 2;
-            var pxGeometry = new THREE.PlaneGeometry( 30, 30 );
-            pxGeometry.applyMatrix( matrix.makeRotationY( Math.PI / 2 ) );
-            //pxGeometry.applyMatrix( matrix.makeTranslation( 50, 0, 0 ) );
-
-            var geometry = new THREE.Geometry();
-            
-            for ( var z = 0; z < worldDepth; z ++ ) {
-              for ( var x = 0; x < worldWidth; x ++ ) {
-                
-                var dummy = new THREE.Mesh();
-                var dx = x*100+10+((Math.random()*100)-50);
-                var dz = z*100+10+((Math.random()*100)-50);
-                dummy.position.x = dx;
-                dummy.position.y = getHeight(dx,dz,true);
-                dummy.position.z = dz;
-
-                    dummy.rotation.y = Math.floor(Math.random()*60);
-                if (dummy.position.y>-40 &&dummy.position.y<60) {
-
-                  dummy.geometry = pxGeometry;
-                  THREE.GeometryUtils.merge( geometry, dummy );
-               }
-
-              }
-
-            }
-
-            var texture = THREE.ImageUtils.loadTexture( 'textures/grass_billboard.png' );
-            texture.magFilter = THREE.NearestFilter;
-            texture.minFilter = THREE.LinearMipMapLinearFilter;
-
-          var material = getWindMaterial();
-
-         var _ref,i,_i;
-
-          for (i = _i = 0, _ref = geometry.vertices.length - 1; _i <= _ref; i = _i += 1) {
-            var v = geometry.vertices[i];
-            var r = ((v.y-30) / 100) + 0.5;
-            material.attributes.windFactor.value[i] = r*5;
-          }
-
-            var mesh = new THREE.Mesh( geometry,material);//, new THREE.MeshLambertMaterial( { map: texture, ambient: 0xbbbbbb, side:THREE.DoubleSide,transparent: true,depthWrite: false} ) );
-            //mesh.position.y = 300;
-            scene.add( mesh );
-
-            var exporter = new THREE.OBJExporter();
-            console.log(exporter.parse(geometry));
-            */
         };
 
         function loadNature() {
@@ -200,38 +145,9 @@ loader.load( '/models/buildings/grassfield3.obj', function ( object) {
         material
         );
      app.Config.scene.add(app.Config.wep);
-/*     app.Config.sounds[0] = new Sound( [ '../sounds/sea.mp3'], 4500, 0.3 );
-     app.Config.sounds[0].position.set(0,10,0);
-     app.Config.sounds[0].playsea();
-     app.Config.sounds[1] = new Sound( [ '../sounds/sea.mp3'], 4500, 0.3 );
-     app.Config.sounds[1].position.set(0,10,10000);
-     app.Config.sounds[1].playsea();
-     app.Config.sounds[2] = new Sound( [ '../sounds/sea.mp3'], 4500, 0.3 );
-     app.Config.sounds[2].position.set(10000,10,0);
-     app.Config.sounds[2].playsea();
-     app.Config.sounds[3] = new Sound( [ '../sounds/sea.mp3'], 4500, 0.3 );
-     app.Config.sounds[3].position.set(10000,10,10000);
-     app.Config.sounds[3].playsea();
-*/
+
      setTimeout("initNoiseShader();initGrass();/*app.Config.character.setAnimation('stand');*/",500);
-/*
-var config = {
 
-        baseUrl: "/models/avatars/",
-
-        body: "knight.js",
-        skins: [ "knight.jpg"],
-        weapons:  [ 
-        ["knightweapon.js","knightweapon.png"]
-        ]
-
-    };
- players['me'].characterObject = new THREE.MD2Character();
-    players['me'].characterObject.scale = 3;
-    players['me']].characterObject.loadParts( config );
-    players['me'].characterObject.root.scale.set(0.18,0.18,0.18);
-    this.Config.scene.add( players['me'].characterObject.root ); 
-*/
      var config = {
 
         baseUrl: "/models/avatars/",
@@ -284,21 +200,7 @@ function checkPos(camera) {
 
 
     var willsend = false;
-    /*
-        if (app.Config.ctext.health <= 0) {
-            if (!app.Config.die) {
-                app.Config.die = true;
-    //            clearInterval(app.Config.character.getAttackInterval());  
-                $('#painDiv').show().effect("pulsate",{times:1,mode:'show'}, 350 )
-                if (app.Config.soundattack1 != null) app.Config.soundattack1.stop();                    
-                app.Config.soundattack1 = null
-                app.Config.yawObject.rotation.x=5;
-            }
-        }
-        */
-    //    app.Config.myPos.nick = CONFIG.nick;
-
-    //    app.Config.myPos.gems = CONFIG.gems;
+  
 
     app.Config.myPos.rx = Math.floor(camera.rotation.x);
     app.Config.myPos.ry = Math.floor(camera.rotation.y);
@@ -341,34 +243,23 @@ if(willsend == true) {
  if (conn!=null) 
     if (conn.readyState === 1) 
         conn.send('NPOS:'+this.Config.myPos.x+','+this.Config.myPos.y+','+this.Config.myPos.z)
-        //send(JSON.stringify(this.Config.myPos, replacer));
         jQuery('#mpos').css({top:(Math.round(this.Config.myPos.z/50)-6)+'px',left:(Math.round(this.Config.myPos.x/50)-3)+'px'});
-//$("#zzoom").css({'transform-origin':(Math.round(this.Config.myPos.z/45)-10)+' '+(Math.round(this.Config.myPos.x/45)-10)})
-//jQuery('#zzoom').css({'transform': 'translate '+(-(Math.round(this.Config.myPos.z/50)-50))+' '+(-(Math.round(this.Config.myPos.x/50)-50))})
-//jQuery('#zzoom').parent().css({'top':-(Math.round(this.Config.myPos.z/50)-50)+'px','left':-(Math.round(this.Config.myPos.x/50)-50)+'px',})
-//jQuery('#zzoom').parent().css({'clip':'rect(0px '+(100+(Math.round(this.Config.myPos.z/50))+50)+'px '+(100+(Math.round(this.Config.myPos.x/30))+50)+'px 0px)'})
 
         }
                 }
 
-        var render = function() {
 
-    //var vector = new THREE.Vector3( mouseVector.x, mouseVector.y, 0);
-    //                projector.unprojectVector( vector, app.Config.camera );
+        var render = function() {
     var raycaster = projector.pickingRay( mouseVector.clone(), app.Config.camera );
-      //              raycaster.set( app.Config.camera.position, vector.sub( app.Config.camera.position ).normalize() );
       var intersects = raycaster.intersectObjects( app.Config.scene.children );
-        //            var intersects = raycaster.intersectObjects( app.Config.scene.children );
 
         if ( intersects.length > 0 ) {
             if (intersects[ 0 ].object.name != '') {
                 if (intersects[ 0 ].object.name != lastseenObject) {
-//                    console.log(intersects[ 0 ].object.name+' at '+intersects[ 0 ].distance+' meters');
                     lastseenObject = intersects[ 0 ].object.name;
 
                     if (intersects[ 0 ].object.material != "undefined")
                         if (intersects[ 0 ].object.material.map != null)
-                    //console.log(intersects[ 0 ].object.material.map.sourceFile);
                     var cf =intersects[ 0 ].object.material.map.sourceFile
                     cf = cf.substring(0,cf.lastIndexOf('/'));
                     var val = 'init';
@@ -388,53 +279,18 @@ var scope = angular.element(document.getElementById("content-frame")).scope();
                 scope.logs[scope.logs.length-1] = 'you see '+atree[cf]+' at '+Math.round(intersects[ 0 ].distance/50)+' meters';
 });
 
-/*        var scope = angular.element(document.getElementById("content-frame")).scope();
-        scope.$apply(function(){
-jQuery.ajax({
-    url: cf+'conf.json',
-    cache: false,
-    dataType: 'json',
-    success: function(data) {
-                if (scope.logs.length>5)
-                    scope.logs.splice(0, 1);
-                scope.logs[scope.logs.length-1] = "you see "+data.name+' at '+Math.round(intersects[ 0 ].distance/50)+' meters';
-            },
-    error: function (request, status, error) {
-                scope.logs[scope.logs.length-1] = 'you see something at '+Math.round(intersects[ 0 ].distance/50)+' meters';
-       
-
-            }
-});
-});*/
-
 
 
                 }
 
             }
-    /*                    if ( INTERSECTED != intersects[ 0 ].object ) {
-
-                            if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( INTERSECTED.currentHex );
-
-                            INTERSECTED = intersects[ 0 ].object;
-                            INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
-                            //INTERSECTED.material.emissive.setHex( 0xff0000 );
-
-                        }
-
-                    } else {
-
-                        if ( INTERSECTED ) INTERSECTED.material.emissive.setHex( 0xff00ff );
-
-                        INTERSECTED = null;
-                        */
+   
                     }
                     if (app == undefined) return;
                     var delta = app.Config.clock.getDelta();
 
 var currentTime = new Date();
      milliseconds = currentTime-conTime-cdelta+stime;
-
 
                     var time = (app.Config.clock.getElapsedTime()+milliseconds)/200;
 
@@ -459,14 +315,24 @@ for (var key in players) {
     {  
         var h=-1
         var rh=0;
+
         if (app.Config.attack==true)
         {        
+         app.Config.attackTime+=delta*5;
 
-         rh=(time*Math.PI-Math.PI/2)%1;
-     }
-     app.Config.wep.position.set(app.Config.yawObject.position.x+Math.cos((app.Config.yawObject.rotation.y+Math.PI/2+rh))*4,app.Config.yawObject.position.y+h-rh*2,app.Config.yawObject.position.z-Math.sin((app.Config.yawObject.rotation.y+Math.PI/2+rh))*4);
-     app.Config.wep.rotation.set(app.Config.wep.rotation.x,app.Config.yawObject.rotation.y+Math.PI/2+Math.PI,app.Config.wep.rotation.z);
- }
+         rh=Math.cos(app.Config.attackTime);
+        }
+        var yp=app.Config.yawObject.position;
+         app.Config.wep.position.set(yp.x+Math.cos(app.Config.yawObject.rotation.y+Math.PI/2),yp.y+h+rh,yp.z-Math.sin(app.Config.yawObject.rotation.y+Math.PI/2));
+         app.Config.wep.rotation.y=app.Config.yawObject.rotation.y+Math.PI/2+Math.PI+rh;
+    }
+
+
+        if (app.Config.run==true)
+        {  
+            app.Config.wep.position.set(yp.x,yp.y-100,yp.z)
+        }
+
  if (app.Config.sounds[0])app.Config.sounds[0].update( app.Config.yawObject );
  if (app.Config.sounds[1])app.Config.sounds[1].update( app.Config.yawObject );
  if (app.Config.sounds[2])app.Config.sounds[2].update( app.Config.yawObject );
@@ -477,7 +343,7 @@ for (var key in players) {
 
  var count = 0;
 
- var e = Math.cos(time /20.5) % 1;
+ var e = Math.cos((milliseconds) / 7000) % 1;
 
  app.Config.skyUniforms.bottomColor.value.r = e;
  app.Config.skyUniforms.bottomColor.value.g = e;
@@ -498,13 +364,13 @@ this.Config.nature_models[n].material.color.b = e*2;
         }
 
 
-        app.Config.Sunlight.position.x =  app.Config.yawObject.position.x+(Math.cos((time+22000) / 20) * 390);
-        app.Config.lensFlare.position.x = app.Config.yawObject.position.x+(Math.cos((time+22000) / 20) * 390);
-        app.Config.Sunlight.position.y = (Math.sin((time+22000) / 20) * 390);
-        app.Config.lensFlare.position.y = (Math.sin((time+22000) / 20) * 390);
+        app.Config.Sunlight.position.x =  app.Config.yawObject.position.x+(Math.cos((milliseconds+10000) / 7000) * 700);
+        app.Config.lensFlare.position.x = app.Config.yawObject.position.x+(Math.cos((milliseconds+10000) / 7000) * 700);
+        app.Config.Sunlight.position.y = (Math.sin((milliseconds+10000) / 7000) * 700)+app.Config.yawObject.position.y;
+        app.Config.lensFlare.position.y = (Math.sin((milliseconds+10000) / 7000) * 700)+app.Config.yawObject.position.y;
         app.Config.Sunlight.position.z =  app.Config.yawObject.position.z;
         app.Config.lensFlare.position.z =  app.Config.yawObject.position.z;
-        if ( app.Config.lensFlare.position.y < 35 ) { 
+        if ( app.Config.lensFlare.position.y < 50 || app.Config.lensFlare.position.y <app.Config.yawObject.position.y) { 
             app.Config.lensFlare.position.y = 10000;
         }
 
@@ -572,6 +438,8 @@ this.Config.nature_models[n].material.color.b = e*2;
         nature_models         : {},
         wep             : null,
         attack          : false,
+        attackTime      : 0,
+        run             : false,
         sky             : null,
         //ctext           : null,
         collectedItems  : 0,
@@ -615,22 +483,7 @@ var planes = [];
         }
     }
 
-    /*    var FizzyText = function() {
-            this.collectedItems = 0;
-            this.health = 100;
-        };
 
-       this.Config.ctext = new FizzyText();
-        var gui = new dat.GUI();
-        gui.add(this.Config.ctext, 'collectedItems').listen();
-        gui.add(this.Config.ctext, 'health').min(0).max(100).listen();
-
-        gui.domElement.style.position = 'absolute';
-        gui.domElement.style.top = '0px';
-        gui.domElement.style.right = '330px';
-
-        document.body.appendChild(gui.domElement);
-        */
         this.Config.clock = new THREE.Clock();
 
         // RENDERER
@@ -836,25 +689,6 @@ var planes = [];
 
     loadI = setInterval("if (app.Config.lazyloaded==178) {console.log('assets loaded!');clearInterval(loadI);lt=0;loadNature();/*play('/js/audio/jasmid/bjorn__lynne-_the_fairy_woods.mid');*/$('#wait').hide();app.Config.lastheight = getHeight(app.Config.yawObject.position.x,app.Config.yawObject.position.z,true)+1;}",2000);
 
-
-  /*  var config = {
-
-        baseUrl: "/models/avatars/",
-
-        body: "knight.js",
-        skins: [ "knight.jpg"],
-        weapons:  [ 
-        ["knightweapon.js","knightweapon.png"]
-        ]
-
-    };
-//this.Config.character={}
-   this.Config.character = new THREE.MD2Character();
-    this.Config.character.scale = 3;
-    this.Config.character.loadParts( config );
-    this.Config.character.root.scale.set(0.18,0.18,0.18);
-
-    this.Config.scene.add( this.Config.character.root );  */
     animate();
 };
 

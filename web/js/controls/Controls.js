@@ -78,33 +78,43 @@ mousemov=false
             case 38: // up
             case 87: // w
                 moveForward = true;
+                app.Config.run = true;
+                setTimeout("app.Config.run =false;","500");
                 break;
 
             case 37: // left
             case 65: // a
                 moveLeft = true;
+                app.Config.run = true;
+                setTimeout("app.Config.run =false;","500");
                 break;
 
             case 40: // down
             case 83: // s
                 moveBackward = true;
+                app.Config.run = true;
+                setTimeout("app.Config.run =false;","500");
                 break;
 
             case 39: // right
             case 68: // d
                 moveRight = true;
+                app.Config.run = true;
+                setTimeout("app.Config.run =false;","500");
                 break;
 
             case 32: // space
+            if (!app.Config.attack) {
                 app.Config.attack = true;
-                setTimeout("app.Config.attack=false;","500")
+                app.Config.attackTime = 0;
+                setTimeout("app.Config.attack=false;app.Config.attacktime =0;","1000")
                 app.Config.sound1.position.copy( app.Config.yawObject.position );
                 app.Config.sound1.play();
+}
 
 
 
-
-
+/*
                 moveUpward = true;
                 var vector = new THREE.Vector3(0, 0, -1);
 
@@ -116,7 +126,7 @@ mousemov=false
                 direct = direction.applyEuler(rotation);
                 direct = direct.multiplyScalar(5);
 
-                velocity.y = 10;
+                velocity.y = 10;*/
                 break;
 
         }

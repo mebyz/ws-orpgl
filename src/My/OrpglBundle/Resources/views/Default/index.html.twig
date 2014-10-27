@@ -39,7 +39,7 @@
 
         initScene();
         setTimeout("$('#screenplane').fadeOut(5000);",7000);
-        setInterval("getConnTime()",1000);
+        setInterval("getConnTime()",100);
         setInterval("conn.send('ST')",10000)
 
         $scope.health = 100;
@@ -388,16 +388,13 @@
             var stime = 0;
 var milliseconds=0;
 function getConnTime() {
-var currentTime = new Date();
-     milliseconds = currentTime-conTime-cdelta+stime;
-    var gminutes = Math.floor((milliseconds / (1000))%60);
-    var ghours   =  Math.floor((milliseconds / (1000*60)) % 24);
+    var currentTime = new Date();
+//     milliseconds = currentTime-conTime-cdelta+stime;
+    var gminutes = 0//Math.floor((milliseconds / (21))%60);
+    var ghours   = Math.floor(((milliseconds) / (1950)) % 24);
 //    stime = milliseconds;
 var scope = angular.element(document.getElementById("content-frame")).scope();
 scope.$apply(function(){
-
-    
-
     scope.clock=("0" + ghours).slice(-2)+':'+("0" + gminutes).slice(-2);
 });
 
@@ -449,7 +446,7 @@ setTimeout(function(){
 if (e.data.substring(0,3)=='ST:')
 {     
     var res = e.data.substring(3);
-    scope.clock=res
+    //scope.clock=res
 
     var res = res.split(":");
     var currentTime = new Date();
