@@ -1,6 +1,11 @@
 
 var initGrass = function() {
-    var loader = new THREE.ObjectLoader( );
+
+    this.Config.scene.add(this.Config.nature_models[this.Config.nature_models.length-5]);
+    this.Config.scene.add(this.Config.nature_models[this.Config.nature_models.length-3]);
+    this.Config.scene.add(this.Config.nature_models[this.Config.nature_models.length-1]);
+
+/*    var loader = new THREE.ObjectLoader( );
 
 
 
@@ -77,7 +82,7 @@ loader.load( '/models/buildings/grassfield3.obj', function ( object) {
 }               
 });
 });
-
+*/
         };
 
 function loadTree(t,o) {
@@ -182,7 +187,11 @@ function loadTree(t,o) {
         );
      app.Config.scene.add(app.Config.wep);
 
-//     setTimeout("initNoiseShader();initGrass();/*app.Config.character.setAnimation('stand');*/",500);
+    loadTree('/textures/grass_billboard.png','/models/buildings/grassfield.obj')
+    loadTree('/textures/grass_billboard.png','/models/buildings/grassfield3.obj')
+    loadTree('/textures/grass_billboard.png','/models/buildings/grassfield4.obj')
+
+     setTimeout("/*initNoiseShader();*/initGrass();/*app.Config.character.setAnimation('stand');*/",5000);
 
 
 
