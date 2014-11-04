@@ -409,7 +409,10 @@ this.Config.nature_models[n].children[0].material.color.b = e*2;
 
 
 
-        app.Config.sky.position = app.Config.yawObject.position;
+        app.Config.mirrorMesh.position.x=app.Config.yawObject.position.x;
+        app.Config.mirrorMesh.position.z=app.Config.yawObject.position.z;
+        app.Config.sky.position.x=app.Config.yawObject.position.x;
+        app.Config.sky.position.z=app.Config.yawObject.position.z;
 //        app.Config.SeaMesh.position.x = app.Config.yawObject.position.x;
 //        app.Config.SeaMesh.position.z = app.Config.yawObject.position.z;
         
@@ -424,6 +427,9 @@ this.Config.nature_models[n].children[0].material.color.b = e*2;
         }
 
         this.Config.water.material.uniforms.time.value += 1.0 / 60.0;
+        this.Config.water.material.uniforms.waterColor.value.r=e
+        this.Config.water.material.uniforms.waterColor.value.g=e
+        this.Config.water.material.uniforms.waterColor.value.b=e
                 this.Config.water.render();
         if (app != undefined)
             this.Config.renderer.render(app.Config.scene, app.Config.camera);
@@ -750,13 +756,13 @@ this.Config.waterNormals = new THREE.ImageUtils.loadTexture( '/js/waternormals.j
 
 
                 this.Config.mirrorMesh = new THREE.Mesh(
-                    new THREE.PlaneBufferGeometry( parameters.width * 500, parameters.height * 500 ),
+                    new THREE.PlaneBufferGeometry( parameters.width * 1000, parameters.height * 1000 ),
                     this.Config.water.material
                 );
 
                 this.Config.mirrorMesh.add( this.Config.water );
                 this.Config.mirrorMesh.rotation.x = - Math.PI * 0.5;
-                this.Config.mirrorMesh.position.y=-40;
+                this.Config.mirrorMesh.position.y=-50;
                 this.Config.scene.add( this.Config.mirrorMesh );
 
         // GROUD
@@ -847,8 +853,8 @@ function launchClouds(application) {
 });
 
  application.Config.emitter = new ShaderParticleEmitter({
-    position: new THREE.Vector3(5500, 300, 2200),
-    positionSpread: new THREE.Vector3(10000, 0, 10000),
+    position: new THREE.Vector3(5000, 300, 5000),
+    positionSpread: new THREE.Vector3(3000, 0, 3000),
 
     colorStart: new THREE.Color(0x000000),
     colorSpread: new THREE.Vector3(-1, -1, -1),
@@ -859,7 +865,7 @@ function launchClouds(application) {
     opacityMiddle: 0.35,
     opacityEnd: 0,
 
-    particlesPerSecond: 2,
+    particlesPerSecond: 1,
 });
 
  application.Config.particleGroup.addEmitter( application.Config.emitter );
