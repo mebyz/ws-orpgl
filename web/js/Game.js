@@ -80,7 +80,7 @@ loader.load( '/models/buildings/grassfield3.obj', function ( object) {
 
         };
 
-function pouet() {
+function pouet(t,o) {
 
                 // texture
                 var manager = new THREE.LoadingManager();
@@ -97,22 +97,22 @@ function pouet() {
                 var onError = function ( xhr ) {
                 };
                 var loader = new THREE.ImageLoader( manager );
-                loader.load( '/js/UV_Grid_Sm.jpg', function ( image ) {
+                loader.load( t, function ( image ) {
                     texture.image = image;
                     texture.needsUpdate = true;
                 } );
                 // model
                 var loader = new THREE.OBJLoader( manager );
-                loader.load( '/js/male02.obj', function ( object ) {
+                loader.load( o, function ( object ) {
                     object.traverse( function ( child ) {
                         if ( child instanceof THREE.Mesh ) {
                             child.material.map = texture;
+                            child.material.transparent = true;
+                            child.material.alphaTest= 0.5;
+                            child.material.side= THREE.DoubleSide;
                         }
                     } );
-                    setTimeout(function() {this.Config.scene.add( object );
-                    object.position.x=this.Config.yawObject.position.x;
-                    object.position.y=this.Config.yawObject.position.y;
-                    object.position.z=this.Config.yawObject.position.z;},3000);
+                    setTimeout(function() {this.Config.nature_models[object.id]=object;},3000);
                 }, onProgress, onError );
 
 }
@@ -182,7 +182,7 @@ function pouet() {
         );
      app.Config.scene.add(app.Config.wep);
 
-     setTimeout("initNoiseShader();/*initGrass();*//*app.Config.character.setAnimation('stand');*/",500);
+     setTimeout("initNoiseShader();initGrass();/*app.Config.character.setAnimation('stand');*/",500);
 
 
 
@@ -390,9 +390,9 @@ for (var key in players) {
            if (planes[i].material.uniforms.time.value<0.2) planes[i].material.uniforms.time.value=0.2;
         }
         for(var n in this.Config.nature_models) {
-this.Config.nature_models[n].material.color.r = e*2;
-this.Config.nature_models[n].material.color.g = e*2;
-this.Config.nature_models[n].material.color.b = e*2;
+this.Config.nature_models[n].children[0].material.color.r = e*2;
+this.Config.nature_models[n].children[0].material.color.g = e*2;
+this.Config.nature_models[n].children[0].material.color.b = e*2;
         //    n.material.uniforms.time.value = e;
         }
 
@@ -506,6 +506,7 @@ this.Config.nature_models[n].material.color.b = e*2;
             
     var waterNormals;
 
+    window.texs=[];
     var initScene = function() {
 
         projector = new THREE.Projector();
@@ -604,6 +605,73 @@ this.Config.nature_models[n].material.color.b = e*2;
 
         //NATURE
         //console.log('ok2///')
+
+
+
+// texture
+
+for(var index in nature_) {
+            var fobj='../'+nature_[index].obj;
+            var ftext = '/'+nature_[index].png;
+pouet(ftext,fobj);
+}
+/*
+                var manager = new THREE.LoadingManager();
+                
+                for(var index in nature_) {
+            var fobj='../'+nature_[index].obj;
+            var ftext = '/'+nature_[index].png;
+            
+                manager.onLoad = function ( item, loaded, total ) {
+                    console.log( item );
+                };
+                var texture = new THREE.Texture();
+                var onProgress = function ( xhr ) {
+                    if ( xhr.lengthComputable ) {
+                        var percentComplete = xhr.loaded / xhr.total * 100;
+                        console.log( Math.round(percentComplete, 2) + '% downloaded' );
+                    }
+                };
+                var onError = function ( xhr ) {
+                };
+                var texture =  new THREE.Texture();
+                var loader = new THREE.ImageLoader( manager );
+                loader.load(ftext,function ( image ) {
+                    var v=image.src.match(/(?:^|\s)(.*?).png(?:\s|$)/)[1]; 
+                    v= v.substring(v.lastIndexOf('/')+1)
+                    var w=image.src.substring(0,image.src.lastIndexOf('/')+1)
+                    texture.image = image;
+                    texture.needsUpdate = true;
+                    var fobj= w+"obj__"+v+".obj"
+                    window.texs[v]=texture;
+                // model
+                var loader2 = new THREE.OBJLoader( manager );
+                loader2.load( fobj, function ( object ) {
+                    object.traverse( function ( child ) {
+                        if ( child instanceof THREE.Mesh ) {
+                            var v = child.material.name.substring(0,child.material.name.lastIndexOf('.tga'))
+                            //console.log(window.texs[v]) 
+                            var texture=window.texs[v]
+                            child.material.map = texture;
+                            child.material.transparent = true;
+                            child.material.alphaTest= 0.5;
+                            child.material.side= THREE.DoubleSide;
+
+                            this.Config.nature_models[child.id]=child;
+                        }
+                    } );
+                }, onProgress, onError );
+
+                } );
+                
+
+        }*/
+        var vv=[];
+        for(var n in this.Config.nature_models) {
+            vv.push(n);
+        }
+        //console.log(vv)
+        this.Config.nature_models=vv;
 
         /*var loader = new THREE.ObjectLoader( );
 
@@ -762,7 +830,7 @@ this.Config.waterNormals = new THREE.ImageUtils.loadTexture( '/js/waternormals.j
         launchClouds(this);
 
     loadI = setInterval("if (app.Config.lazyloaded==178) {console.log('assets loaded!');clearInterval(loadI);lt=0;loadNature();/*play('/js/audio/jasmid/bjorn__lynne-_the_fairy_woods.mid');*/$('#wait').hide();app.Config.lastheight = getHeight(app.Config.yawObject.position.x,app.Config.yawObject.position.z,true)+1;}",2000);
-    pouet();
+    //pouet();
     animate();
 };
 
