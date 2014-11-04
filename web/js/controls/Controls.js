@@ -53,18 +53,17 @@ THREE.PointerLockControls = function(application) {
     if (!dragging)
         mousemov=true;
 
-        var raycaster = projector.pickingRay( mouseVector.clone(), app.Config.camera );
+/*        var raycaster = projector.pickingRay( mouseVector.clone(), app.Config.camera );
         var     intersects = raycaster.intersectObjects( app.Config.scene.children );
                         
                 for( var i = 0; i < intersects.length; i++ ) {
                         var intersection = intersects[ i ],
                                 obj = intersection.object;
 if (obj.material.color){//&& obj.position.distanceTo( app.Config.yawObject.position ) < 50) {
-/*    if (obj.id == 'clickme')
-        $( "#dialog" ).dialog( "open" ).html(runner.displayNode());*/
+
 //                        obj.material.color.setRGB( 1.0 - i / intersects.length, 0, 0 );
                         }
-                }
+                }*/
          event.preventDefault();
     };
     var onMouseUp = function(event) {
