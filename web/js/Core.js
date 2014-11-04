@@ -1,6 +1,6 @@
 // IMAGE
 var loadImage = function(url) {
-    return THREE.ImageUtils.loadTexture(url,null,function(){app.Config.lazyloaded++;});
+    return THREE.ImageUtils.loadTexture(url,null,function(){});
 }
 
 // GET HEIGHT
