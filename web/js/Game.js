@@ -397,10 +397,10 @@ this.Config.nature_models[n].children[0].material.color.b = e*2;
         }
 
 
-        app.Config.Sunlight.position.x =  app.Config.yawObject.position.x+(Math.cos((milliseconds+10000) / 7000) * 700);
-        app.Config.lensFlare.position.x = app.Config.yawObject.position.x+(Math.cos((milliseconds+10000) / 7000) * 700);
-        app.Config.Sunlight.position.y = (Math.sin((milliseconds+10000) / 7000) * 700)+app.Config.yawObject.position.y;
-        app.Config.lensFlare.position.y = (Math.sin((milliseconds+10000) / 7000) * 700)+app.Config.yawObject.position.y;
+        app.Config.Sunlight.position.x =  app.Config.yawObject.position.x+(Math.cos((milliseconds+10000) / 7000) * 3700);
+        app.Config.lensFlare.position.x = app.Config.yawObject.position.x+(Math.cos((milliseconds+10000) / 7000) * 3700);
+        app.Config.Sunlight.position.y = (Math.sin((milliseconds+10000) / 7000) * 3700)+app.Config.yawObject.position.y;
+        app.Config.lensFlare.position.y = (Math.sin((milliseconds+10000) / 7000) * 3700)+app.Config.yawObject.position.y;
         app.Config.Sunlight.position.z =  app.Config.yawObject.position.z;
         app.Config.lensFlare.position.z =  app.Config.yawObject.position.z;
         if ( app.Config.lensFlare.position.y < 50 || app.Config.lensFlare.position.y <app.Config.yawObject.position.y) { 
@@ -599,7 +599,7 @@ this.Config.nature_models[n].children[0].material.color.b = e*2;
 
         // LENS FLARE / SUN
         var textureFlare0 = loadImage("/textures/lensflare001.png");
-        addLight(0.55, 0.9, 0.5, 0, 290, 0, textureFlare0,this);
+        addLight(0.55, 0.9, 0.5, 0, 2000, 0, textureFlare0,this);
       //  console.log('ok2..')
 
         // MISC
