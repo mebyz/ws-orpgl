@@ -80,6 +80,42 @@ loader.load( '/models/buildings/grassfield3.obj', function ( object) {
 
         };
 
+function pouet() {
+
+                // texture
+                var manager = new THREE.LoadingManager();
+                manager.onProgress = function ( item, loaded, total ) {
+                    console.log( item, loaded, total );
+                };
+                var texture = new THREE.Texture();
+                var onProgress = function ( xhr ) {
+                    if ( xhr.lengthComputable ) {
+                        var percentComplete = xhr.loaded / xhr.total * 100;
+                        console.log( Math.round(percentComplete, 2) + '% downloaded' );
+                    }
+                };
+                var onError = function ( xhr ) {
+                };
+                var loader = new THREE.ImageLoader( manager );
+                loader.load( '/js/UV_Grid_Sm.jpg', function ( image ) {
+                    texture.image = image;
+                    texture.needsUpdate = true;
+                } );
+                // model
+                var loader = new THREE.OBJLoader( manager );
+                loader.load( '/js/male02.obj', function ( object ) {
+                    object.traverse( function ( child ) {
+                        if ( child instanceof THREE.Mesh ) {
+                            child.material.map = texture;
+                        }
+                    } );
+                    setTimeout(function() {this.Config.scene.add( object );
+                    object.position.x=this.Config.yawObject.position.x;
+                    object.position.y=this.Config.yawObject.position.y;
+                    object.position.z=this.Config.yawObject.position.z;},3000);
+                }, onProgress, onError );
+
+}
         function loadNature() {
             var loader = new THREE.ObjectLoader( );
 
@@ -147,45 +183,6 @@ loader.load( '/models/buildings/grassfield3.obj', function ( object) {
      app.Config.scene.add(app.Config.wep);
 
      setTimeout("initNoiseShader();/*initGrass();*//*app.Config.character.setAnimation('stand');*/",500);
-
-
-
-              setTimeout(function() {
-                // texture
-                var manager = new THREE.LoadingManager();
-                manager.onProgress = function ( item, loaded, total ) {
-                    console.log( item, loaded, total );
-                };
-                var texture = new THREE.Texture();
-                var onProgress = function ( xhr ) {
-                    if ( xhr.lengthComputable ) {
-                        var percentComplete = xhr.loaded / xhr.total * 100;
-                        console.log( Math.round(percentComplete, 2) + '% downloaded' );
-                    }
-                };
-                var onError = function ( xhr ) {
-                };
-                var loader = new THREE.ImageLoader( manager );
-                loader.load( '/js/UV_Grid_Sm.jpg', function ( image ) {
-                    texture.image = image;
-                    texture.needsUpdate = true;
-                } );
-                // model
-                var loader = new THREE.OBJLoader( manager );
-                loader.load( '/js/male02.obj', function ( object ) {
-                    object.traverse( function ( child ) {
-                        if ( child instanceof THREE.Mesh ) {
-                            child.material.map = texture;
-                        }
-                    } );
-                    setTimeout(function() {this.Config.scene.add( object );
-                    object.position.x=this.Config.yawObject.position.x;
-                    object.position.y=this.Config.yawObject.position.y;
-                    object.position.z=this.Config.yawObject.position.z;},3000);
-                }, onProgress, onError );
-
-},3000);
-
 
 
 
@@ -425,6 +422,9 @@ this.Config.nature_models[n].material.color.b = e*2;
             noiseShader.uniforms["vOffset"].value.y += (delta * noiseOffsetSpeed) * windDirection.z;
             this.Config.renderer.render(noiseScene, noiseCameraOrtho, noiseMap, true);
         }
+
+        this.Config.water.material.uniforms.time.value += 1.0 / 60.0;
+                this.Config.water.render();
         if (app != undefined)
             this.Config.renderer.render(app.Config.scene, app.Config.camera);
 
@@ -762,7 +762,7 @@ this.Config.waterNormals = new THREE.ImageUtils.loadTexture( '/js/waternormals.j
         launchClouds(this);
 
     loadI = setInterval("if (app.Config.lazyloaded==178) {console.log('assets loaded!');clearInterval(loadI);lt=0;loadNature();/*play('/js/audio/jasmid/bjorn__lynne-_the_fairy_woods.mid');*/$('#wait').hide();app.Config.lastheight = getHeight(app.Config.yawObject.position.x,app.Config.yawObject.position.z,true)+1;}",2000);
-
+    pouet();
     animate();
 };
 
