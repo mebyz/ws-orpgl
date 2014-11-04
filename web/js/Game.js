@@ -1,6 +1,7 @@
 
 var initGrass = function() {
 
+    this.Config.scene.add(this.Config.nature_models[this.Config.nature_models.length-7]);
     this.Config.scene.add(this.Config.nature_models[this.Config.nature_models.length-5]);
     this.Config.scene.add(this.Config.nature_models[this.Config.nature_models.length-3]);
     this.Config.scene.add(this.Config.nature_models[this.Config.nature_models.length-1]);
@@ -188,8 +189,9 @@ function loadTree(t,o) {
      app.Config.scene.add(app.Config.wep);
 
     loadTree('/textures/grass_billboard.png','/models/buildings/grassfield.obj')
-    loadTree('/textures/grass_billboard.png','/models/buildings/grassfield3.obj')
-    loadTree('/textures/grass_billboard.png','/models/buildings/grassfield4.obj')
+    loadTree('/textures/flowers01.png','/models/buildings/grassfield3.obj')
+    loadTree('/textures/flowers02.png','/models/buildings/grassfield4.obj')
+    loadTree('/textures/flowers02.png','/models/buildings/grassfield2.obj')
 
      setTimeout("/*initNoiseShader();*/initGrass();/*app.Config.character.setAnimation('stand');*/",5000);
 
