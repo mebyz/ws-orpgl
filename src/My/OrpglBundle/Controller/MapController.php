@@ -18,4 +18,15 @@ class MapController extends Controller
     	$response=$this->render('MyOrpglBundle:Default:map.html.twig');
         return $response;
     }
+
+
+    public function mapAction()
+    {
+		$memcache = new \Memcache();
+		$memcache->connect('localhost', 11211);
+		$pos=$memcache->get("pos");
+
+		echo $pos;
+		exit;
+	}
 }

@@ -10,3 +10,6 @@ my_orpgl_homepage:
 my_orpgl_map:
     path:     /map
     defaults: { _controller: MyOrpglBundle:Map:index }
+my_orpgl_map2:
+    path:     /map2
+    defaults: { _controller: MyOrpglBundle:Map:map }

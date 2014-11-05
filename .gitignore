@@ -5,6 +5,7 @@
 /app/logs/*
 !app/cache/.gitkeep
 !app/logs/.gitkeep
+.DS_Store
 /build/
 /vendor/
 /bin/

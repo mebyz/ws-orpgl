@@ -15,59 +15,32 @@
 
 
 
-    var conn = null;
-
-            function connectWs() {
-              conn = new WebSocket('ws://localhost:8081/map');
-              setTimeout(bindEvents, 1000);
-              setReadyState();
-          }
-
-          function bindEvents() {
-
-
-           conn.onerror = function(error) {
-            document.location='/app_dev.php/login_check';
-        }
-
-        conn.onmessage = function(e) {
-
-};
-conn.onopen = function() {
-    //console.log('onopen called');
-    setReadyState();
-};
-}
-
-function setReadyState() {
-  console.log('conn.readyState: ' + conn.readyState);
-  //setTimeout('conn.send("ST");',1500);
-  
   loadMap();
-}
+
 
 
 function loadMap() {
-
-    $.getJSON('/map.json', function(data) {
+setInterval( function() {
+    $.getJSON('/app_dev.php/map2', function(data) {
         var end ='';
             $.each(data, function(index) {
-                var name = index;
-                var pos = data[index].split(',');
+//                alert( index+" : "+data[index]);
 
-                var posx=pos[0]/10
-                var posy=pos[2]/10
+                var name = index;
+                var pos = data[index]//.split(',');
+
+                var posx=pos[0]/52
+                var posy=pos[2]/52
                 $(".pos").remove();
                 end +='<div style="z-index:200000;position:absolute;top:'+posx+'px;left:'+posy+'px;color:red;" class="pos">&#8226;</div>';
-//                alert( index+" : "+data[index]);
+
+
             });
 
-                $("#map").append(end);
+               $("#map").append(end);
         });
+},1000);
 }
-
-
-connectWs();
 
 
 

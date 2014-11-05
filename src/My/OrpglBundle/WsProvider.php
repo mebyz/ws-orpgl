@@ -29,28 +29,6 @@ class WsProvider implements MessageComponentInterface {
         return $this->gameNodeTime;
     }
 
-    protected function getMap() {
-        return $this->memcache->get("map");
-    }
-    protected function setMap() {
-        if ($handle = opendir('/tmp/')) {
-                $pos=array();
-                    while (false !== ($entry = readdir($handle))) {
-                        if (stristr($entry, 'pos_')!==false)  {
-                            $pos[substr($entry,4)]=trim(preg_replace('/\s\s+/', ' ', file_get_contents("/tmp/".$entry)));
-                        }
-                    }
-                    $s = json_encode($pos);
-
-                    $this->memcache->set("map",$s);
-                    file_put_contents("/var/www/dev/source/web/map.json", $s);
-
-
-                    closedir($handle);
-                }
-
-    }
-
     public function onOpen(ConnectionInterface $conn) {
         $url = ($conn->WebSocket->request->getUrl());
 
@@ -85,12 +63,6 @@ class WsProvider implements MessageComponentInterface {
     public function onMessage(ConnectionInterface $from, $msg) {
         $url = ($from->WebSocket->request->getUrl());
 
-        if (substr($url,-4)==='/map') {
-            echo "MAP !";
-            $this->setMap();
-            echo $this->getMap();
-        }
-        else {
     	$phpid=$from->Session->get('name');
         $numRecv = count($this->clients) - 1;
                 $t=$this->getNodeTime();
@@ -115,6 +87,7 @@ class WsProvider implements MessageComponentInterface {
                         break;
                     case "NPOS":
                         $this->positions[$phpid]=explode(',', $premsga[1]);
+                        $this->memcache->set("pos",json_encode($this->positions));
                         file_put_contents('/tmp/pos_'.$phpid, $premsga[1]);
                         //BROADCAST new pos to other connected players !
                         foreach ($this->clients as $client) {
@@ -128,7 +101,7 @@ class WsProvider implements MessageComponentInterface {
                         # code...
                         break;
                }
-        }
+        
 
     }
 
