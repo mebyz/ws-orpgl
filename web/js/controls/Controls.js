@@ -47,6 +47,29 @@ THREE.PointerLockControls = function(application) {
 
         app.Config.pitchObject.rotation.x = Math.max(-PI_2, Math.min(PI_2, app.Config.pitchObject.rotation.x));
 }
+
+                vector.set( mouseVector.x, (mouseVector.y-1.5), 0.5 );
+                vector.unproject( application.Config.camera );
+
+                raycaster.ray.set( application.Config.yawObject.position, vector.sub( application.Config.yawObject.position ).normalize() );
+
+                var intersects = raycaster.intersectObjects(  application.Config.mplane );
+
+                if ( intersects.length > 0 ) {
+
+                                       console.log((mouseVector.x)+" "+(mouseVector.y-1.5)+" "+intersects[ 0 ])
+
+                    var intersect = intersects[ 0 ];
+
+                    rollOverMesh.position.x=intersect.point.x
+                    rollOverMesh.position.z=intersect.point.z
+//                     .copy( intersect.point )//.add( intersect.face.normal );
+                    rollOverMesh.position.divideScalar( 50 ).floor().multiplyScalar( 50 ).addScalar( 25 );
+
+                }
+
+                //render();
+
     };
     var onMouseDown = function(event) {
 

@@ -151,7 +151,7 @@ function loadTree(t,o) {
                 
                 if (natureArray[i].y>-40 && natureArray[i].y<80) {
 
-                    var r = natureIndex[i]-1;
+                    var r = natureIndex[i];
                     var child = app.Config.nature_models[r].clone();
                     child.scale.set(2,2,2);
 //                    var conf = jQuery.getJSON()
@@ -476,6 +476,7 @@ this.Config.nature_models[n].children[0].material.color.b = e*2;
         },
         artefacts       : [],
         avatars         : [],
+        mplane          : [],
         skyUniforms     : null,
         Sea             : null,
         SeaMesh         : null,
@@ -524,7 +525,11 @@ this.Config.nature_models[n].children[0].material.color.b = e*2;
     var waterNormals;
 
     window.texs=[];
+    var vector;
+    var rollOverMesh;
     var initScene = function() {
+
+                vector = new THREE.Vector3();
 
         projector = new THREE.Projector();
         raycaster = new THREE.Raycaster();
@@ -846,6 +851,59 @@ this.Config.waterNormals = new THREE.ImageUtils.loadTexture( '/js/waternormals.j
         this.Config.renderer.setClearColor(0xFFFFFF);
         //CLOUDS
         launchClouds(this);
+
+
+
+// roll-over helpers
+
+                rollOverGeo = new THREE.BoxGeometry( 50, 50, 50 );
+                rollOverMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, opacity: 0.5, transparent: true } );
+                rollOverMesh = new THREE.Mesh( rollOverGeo, rollOverMaterial );
+                this.Config.scene.add( rollOverMesh );
+
+                // cubes
+
+                cubeGeo = new THREE.BoxGeometry( 50, 50, 50 );
+                cubeMaterial = new THREE.MeshLambertMaterial( { color: 0xfeb74c, ambient: 0x00ff80, shading: THREE.FlatShading, map: THREE.ImageUtils.loadTexture( "textures/square-outline-textured.png" ) } );
+                cubeMaterial.ambient = cubeMaterial.color;
+
+                // grid
+
+                var size = 5000, step = 50;
+
+                var geometry = new THREE.Geometry();
+
+                for ( var i = - size; i <= size; i += step ) {
+
+                    geometry.vertices.push( new THREE.Vector3( - size, 0, i ) );
+                    geometry.vertices.push( new THREE.Vector3(   size, 0, i ) );
+
+                    geometry.vertices.push( new THREE.Vector3( i, 0, - size ) );
+                    geometry.vertices.push( new THREE.Vector3( i, 0,   size ) );
+
+                }
+
+                var material = new THREE.LineBasicMaterial( { color: 0x000000, opacity: 0.2, transparent: true } );
+
+                var line = new THREE.Line( geometry, material );
+                line.type = THREE.LinePieces;
+                this.Config.scene.add( line );
+
+                //
+
+                vector = new THREE.Vector3();
+                raycaster = new THREE.Raycaster();
+
+                var geometry = new THREE.PlaneBufferGeometry( 10000, 10000 );
+                geometry.applyMatrix( new THREE.Matrix4().makeRotationX( - Math.PI / 2 ) );
+
+                plane = new THREE.Mesh( geometry );
+                plane.visible = false;
+                this.Config.scene.add( plane );
+                this.Config.mplane.push(plane);
+                //objects.push( plane );
+
+
 
 //    loadI = setInterval("if (app.Config.nature_models.lenght>0) {console.log('assets loaded!');clearInterval(loadI);lt=0;loadNature();/*play('/js/audio/jasmid/bjorn__lynne-_the_fairy_woods.mid');*/$('#wait').hide();app.Config.lastheight = getHeight(app.Config.yawObject.position.x,app.Config.yawObject.position.z,true)+1;}",2000);
 
