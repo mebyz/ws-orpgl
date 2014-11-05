@@ -43,10 +43,28 @@ function setReadyState() {
   console.log('conn.readyState: ' + conn.readyState);
   //setTimeout('conn.send("ST");',1500);
   
+  loadMap();
 }
 
 
+function loadMap() {
 
+    $.getJSON('/map.json', function(data) {
+        var end ='';
+            $.each(data, function(index) {
+                var name = index;
+                var pos = data[index].split(',');
+
+                var posx=pos[0]/10
+                var posy=pos[2]/10
+                $(".pos").remove();
+                end +='<div style="z-index:200000;position:absolute;top:'+posx+'px;left:'+posy+'px;color:red;" class="pos">&#8226;</div>';
+//                alert( index+" : "+data[index]);
+            });
+
+                $("#map").append(end);
+        });
+}
 
 
 connectWs();
@@ -77,7 +95,7 @@ connectWs();
         <div class="starter-template" style="width:100%;text-align:left;">
 <br/><br/>
 <br/><br/>
-<div style="zoom:300%; display: inline-block;position:absolute;">
+<div style="zoom:300%; display: inline-block;position:absolute;" id="map">
         <img src="/orpgl-mapgen/images/tile_0_0.jpg" style="position:absolute;top:    0px;left:   0px;width:  20px;height:  20px;"/>
         <img src="/orpgl-mapgen/images/tile_0_1.jpg" style="position:absolute;top:    0px;left:   20px;width:  20px;height:  20px;"/>
         <img src="/orpgl-mapgen/images/tile_0_2.jpg" style="position:absolute;top:    0px;left:   40px;width:  20px;height:  20px;"/>
@@ -186,8 +204,7 @@ connectWs();
         <img src="/orpgl-mapgen/images/tile_9_6.jpg" style="position:absolute;top:    180px;left:   120px;width:  20px;height:  20px;"/>
         <img src="/orpgl-mapgen/images/tile_9_7.jpg" style="position:absolute;top:    180px;left:   140px;width:  20px;height:  20px;"/>
         <img src="/orpgl-mapgen/images/tile_9_8.jpg" style="position:absolute;top:    180px;left:   160px;width:  20px;height:  20px;"/>
-        <img src="/orpgl-mapgen/images/tile_9_9.jpg" style="position:absolute;top:    180px;left:   180px;width:  20px;height:  20px;"/>
-        <div style="z-index:200000;position:absolute;top:-6px;left:-3px;color:red;" id="mpos">&#8226;</div>
+        <img src="/orpgl-mapgen/images/tile_9_9.jpg" style="position:absolute;top:    180px;left:   180px;width:  20px;height:  20px;"/>        
 
     </div></center>
         </div>

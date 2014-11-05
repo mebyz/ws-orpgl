@@ -29,25 +29,34 @@ class WsProvider implements MessageComponentInterface {
         return $this->gameNodeTime;
     }
 
+    protected function getMap() {
+        return $this->memcache->get("map");
+    }
+    protected function setMap() {
+        if ($handle = opendir('/tmp/')) {
+                $pos=array();
+                    while (false !== ($entry = readdir($handle))) {
+                        if (stristr($entry, 'pos_')!==false)  {
+                            $pos[substr($entry,4)]=trim(preg_replace('/\s\s+/', ' ', file_get_contents("/tmp/".$entry)));
+                        }
+                    }
+                    $s = json_encode($pos);
+
+                    $this->memcache->set("map",$s);
+                    file_put_contents("/var/www/dev/source/web/map.json", $s);
+
+
+                    closedir($handle);
+                }
+
+    }
+
     public function onOpen(ConnectionInterface $conn) {
         $url = ($conn->WebSocket->request->getUrl());
 
         if (substr($url,-4)==='/map') {
             echo "MAP !";
-                if ($handle = opendir('/tmp/')) {
-
-                    while (false !== ($entry = readdir($handle))) {
-                        if (stristr($entry, 'pos_')!==false)  {
-                            
-                            $s= substr($entry,4)." : ".file_get_contents("/tmp/".$entry)."\n";
-
-                            $this->memcache->set("foo",$s);
-                        }
-                    }
-
-
-                    closedir($handle);
-                }
+            $this->setMap();
             
         }
         else {
@@ -78,7 +87,8 @@ class WsProvider implements MessageComponentInterface {
 
         if (substr($url,-4)==='/map') {
             echo "MAP !";
-            echo $this->memcache->get("foo");
+            $this->setMap();
+            echo $this->getMap();
         }
         else {
     	$phpid=$from->Session->get('name');
