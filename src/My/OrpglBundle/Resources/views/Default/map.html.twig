@@ -1,0 +1,197 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+<link rel="stylesheet" href="/js2/bootstrap/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="/js2/bootstrap/dist/css/bootstrap-theme.min.css">
+<script src="/js2/jquery/dist/jquery.min.js"></script>
+<script src="/js2/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/js2/angular/angular.min.js"></script>
+<script type="text/javascript">
+    var myApp = angular.module('myApp', []);
+    myApp.controller('myController', function ($scope) {
+           
+    });
+
+
+
+
+    var conn = null;
+
+            function connectWs() {
+              conn = new WebSocket('ws://localhost:8081/map');
+              setTimeout(bindEvents, 1000);
+              setReadyState();
+          }
+
+          function bindEvents() {
+
+
+           conn.onerror = function(error) {
+            document.location='/app_dev.php/login_check';
+        }
+
+        conn.onmessage = function(e) {
+
+};
+conn.onopen = function() {
+    //console.log('onopen called');
+    setReadyState();
+};
+}
+
+function setReadyState() {
+  console.log('conn.readyState: ' + conn.readyState);
+  //setTimeout('conn.send("ST");',1500);
+  
+}
+
+
+
+
+
+connectWs();
+
+
+
+
+
+
+</script>
+</head>
+<body>
+<div ng-controller="myController" class="ng-scope">
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">ORPGL</a>
+            </div>
+        </div>
+    </div>
+    <div class="container"
+        <div class="starter-template" style="width:100%;text-align:left;">
+<br/><br/>
+<br/><br/>
+<div style="zoom:300%; display: inline-block;position:absolute;">
+        <img src="/orpgl-mapgen/images/tile_0_0.jpg" style="position:absolute;top:    0px;left:   0px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_0_1.jpg" style="position:absolute;top:    0px;left:   20px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_0_2.jpg" style="position:absolute;top:    0px;left:   40px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_0_3.jpg" style="position:absolute;top:    0px;left:   60px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_0_4.jpg" style="position:absolute;top:    0px;left:   80px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_0_5.jpg" style="position:absolute;top:    0px;left:   100px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_0_6.jpg" style="position:absolute;top:    0px;left:   120px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_0_7.jpg" style="position:absolute;top:    0px;left:   140px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_0_8.jpg" style="position:absolute;top:    0px;left:   160px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_0_9.jpg" style="position:absolute;top:    0px;left:   180px;width:  20px;height:  20px;"/>
+
+        <img src="/orpgl-mapgen/images/tile_1_0.jpg" style="position:absolute;top:    20px;left:   0px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_1_1.jpg" style="position:absolute;top:    20px;left:   20px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_1_2.jpg" style="position:absolute;top:    20px;left:   40px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_1_3.jpg" style="position:absolute;top:    20px;left:   60px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_1_4.jpg" style="position:absolute;top:    20px;left:   80px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_1_5.jpg" style="position:absolute;top:    20px;left:   100px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_1_6.jpg" style="position:absolute;top:    20px;left:   120px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_1_7.jpg" style="position:absolute;top:    20px;left:   140px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_1_8.jpg" style="position:absolute;top:    20px;left:   160px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_1_9.jpg" style="position:absolute;top:    20px;left:   180px;width:  20px;height:  20px;"/>
+
+        <img src="/orpgl-mapgen/images/tile_2_0.jpg" style="position:absolute;top:    40px;left:   0px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_2_1.jpg" style="position:absolute;top:    40px;left:   20px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_2_2.jpg" style="position:absolute;top:    40px;left:   40px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_2_3.jpg" style="position:absolute;top:    40px;left:   60px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_2_4.jpg" style="position:absolute;top:    40px;left:   80px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_2_5.jpg" style="position:absolute;top:    40px;left:   100px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_2_6.jpg" style="position:absolute;top:    40px;left:   120px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_2_7.jpg" style="position:absolute;top:    40px;left:   140px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_2_8.jpg" style="position:absolute;top:    40px;left:   160px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_2_9.jpg" style="position:absolute;top:    40px;left:   180px;width:  20px;height:  20px;"/>
+
+        <img src="/orpgl-mapgen/images/tile_3_0.jpg" style="position:absolute;top:    60px;left:   0px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_3_1.jpg" style="position:absolute;top:    60px;left:   20px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_3_2.jpg" style="position:absolute;top:    60px;left:   40px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_3_3.jpg" style="position:absolute;top:    60px;left:   60px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_3_4.jpg" style="position:absolute;top:    60px;left:   80px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_3_5.jpg" style="position:absolute;top:    60px;left:   100px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_3_6.jpg" style="position:absolute;top:    60px;left:   120px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_3_7.jpg" style="position:absolute;top:    60px;left:   140px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_3_8.jpg" style="position:absolute;top:    60px;left:   160px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_3_9.jpg" style="position:absolute;top:    60px;left:   180px;width:  20px;height:  20px;"/>
+
+        <img src="/orpgl-mapgen/images/tile_4_0.jpg" style="position:absolute;top:    80px;left:   0px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_4_1.jpg" style="position:absolute;top:    80px;left:   20px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_4_2.jpg" style="position:absolute;top:    80px;left:   40px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_4_3.jpg" style="position:absolute;top:    80px;left:   60px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_4_4.jpg" style="position:absolute;top:    80px;left:   80px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_4_5.jpg" style="position:absolute;top:    80px;left:   100px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_4_6.jpg" style="position:absolute;top:    80px;left:   120px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_4_7.jpg" style="position:absolute;top:    80px;left:   140px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_4_8.jpg" style="position:absolute;top:    80px;left:   160px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_4_9.jpg" style="position:absolute;top:    80px;left:   180px;width:  20px;height:  20px;"/>
+
+        <img src="/orpgl-mapgen/images/tile_5_0.jpg" style="position:absolute;top:    100px;left:   0px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_5_1.jpg" style="position:absolute;top:    100px;left:   20px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_5_2.jpg" style="position:absolute;top:    100px;left:   40px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_5_3.jpg" style="position:absolute;top:    100px;left:   60px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_5_4.jpg" style="position:absolute;top:    100px;left:   80px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_5_5.jpg" style="position:absolute;top:    100px;left:   100px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_5_6.jpg" style="position:absolute;top:    100px;left:   120px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_5_7.jpg" style="position:absolute;top:    100px;left:   140px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_5_8.jpg" style="position:absolute;top:    100px;left:   160px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_5_9.jpg" style="position:absolute;top:    100px;left:   180px;width:  20px;height:  20px;"/>
+
+        <img src="/orpgl-mapgen/images/tile_6_0.jpg" style="position:absolute;top:    120px;left:   0px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_6_1.jpg" style="position:absolute;top:    120px;left:   20px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_6_2.jpg" style="position:absolute;top:    120px;left:   40px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_6_3.jpg" style="position:absolute;top:    120px;left:   60px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_6_4.jpg" style="position:absolute;top:    120px;left:   80px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_6_5.jpg" style="position:absolute;top:    120px;left:   100px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_6_6.jpg" style="position:absolute;top:    120px;left:   120px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_6_7.jpg" style="position:absolute;top:    120px;left:   140px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_6_8.jpg" style="position:absolute;top:    120px;left:   160px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_6_9.jpg" style="position:absolute;top:    120px;left:   180px;width:  20px;height:  20px;"/>
+
+        <img src="/orpgl-mapgen/images/tile_7_0.jpg" style="position:absolute;top:    140px;left:   0px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_7_1.jpg" style="position:absolute;top:    140px;left:   20px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_7_2.jpg" style="position:absolute;top:    140px;left:   40px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_7_3.jpg" style="position:absolute;top:    140px;left:   60px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_7_4.jpg" style="position:absolute;top:    140px;left:   80px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_7_5.jpg" style="position:absolute;top:    140px;left:   100px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_7_6.jpg" style="position:absolute;top:    140px;left:   120px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_7_7.jpg" style="position:absolute;top:    140px;left:   140px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_7_8.jpg" style="position:absolute;top:    140px;left:   160px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_7_9.jpg" style="position:absolute;top:    140px;left:   180px;width:  20px;height:  20px;"/>
+
+        <img src="/orpgl-mapgen/images/tile_8_0.jpg" style="position:absolute;top:    160px;left:   0px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_8_1.jpg" style="position:absolute;top:    160px;left:   20px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_8_2.jpg" style="position:absolute;top:    160px;left:   40px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_8_3.jpg" style="position:absolute;top:    160px;left:   60px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_8_4.jpg" style="position:absolute;top:    160px;left:   80px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_8_5.jpg" style="position:absolute;top:    160px;left:   100px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_8_6.jpg" style="position:absolute;top:    160px;left:   120px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_8_7.jpg" style="position:absolute;top:    160px;left:   140px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_8_8.jpg" style="position:absolute;top:    160px;left:   160px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_8_9.jpg" style="position:absolute;top:    160px;left:   180px;width:  20px;height:  20px;"/>
+
+        <img src="/orpgl-mapgen/images/tile_9_0.jpg" style="position:absolute;top:    180px;left:   0px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_9_1.jpg" style="position:absolute;top:    180px;left:   20px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_9_2.jpg" style="position:absolute;top:    180px;left:   40px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_9_3.jpg" style="position:absolute;top:    180px;left:   60px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_9_4.jpg" style="position:absolute;top:    180px;left:   80px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_9_5.jpg" style="position:absolute;top:    180px;left:   100px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_9_6.jpg" style="position:absolute;top:    180px;left:   120px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_9_7.jpg" style="position:absolute;top:    180px;left:   140px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_9_8.jpg" style="position:absolute;top:    180px;left:   160px;width:  20px;height:  20px;"/>
+        <img src="/orpgl-mapgen/images/tile_9_9.jpg" style="position:absolute;top:    180px;left:   180px;width:  20px;height:  20px;"/>
+        <div style="z-index:200000;position:absolute;top:-6px;left:-3px;color:red;" id="mpos">&#8226;</div>
+
+    </div></center>
+        </div>
+    </div>
+</div>
+</body>
+</html>

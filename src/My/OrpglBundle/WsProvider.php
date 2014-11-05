@@ -12,8 +12,11 @@ class WsProvider implements MessageComponentInterface {
     protected $clients;
     protected $positions;
     protected $gameNodeTime;
+    protected $memcache;
 
     public function __construct() {
+        $this->memcache = new \Memcache();
+        $this->memcache->connect('localhost', 11211);
         $this->clients = new \SplObjectStorage;
         $this->positions = array();
         $this->gameNodeTime = $this->getNodeTime();
@@ -27,6 +30,28 @@ class WsProvider implements MessageComponentInterface {
     }
 
     public function onOpen(ConnectionInterface $conn) {
+        $url = ($conn->WebSocket->request->getUrl());
+
+        if (substr($url,-4)==='/map') {
+            echo "MAP !";
+                if ($handle = opendir('/tmp/')) {
+
+                    while (false !== ($entry = readdir($handle))) {
+                        if (stristr($entry, 'pos_')!==false)  {
+                            
+                            $s= substr($entry,4)." : ".file_get_contents("/tmp/".$entry)."\n";
+
+                            $this->memcache->set("foo",$s);
+                        }
+                    }
+
+
+                    closedir($handle);
+                }
+            
+        }
+        else {
+
         $phpid=$conn->Session->get('name');
 		$f='/tmp/pos_'.$phpid;
     	echo $phpid;
@@ -43,11 +68,19 @@ class WsProvider implements MessageComponentInterface {
             $this->positions[$phpid]=explode(',',$tp);
             $conn->send("POS:".json_encode($this->positions[$phpid]));
         }
+        }
         echo "New connection! ({$conn->resourceId})\n";
 
     }
 
     public function onMessage(ConnectionInterface $from, $msg) {
+        $url = ($from->WebSocket->request->getUrl());
+
+        if (substr($url,-4)==='/map') {
+            echo "MAP !";
+            echo $this->memcache->get("foo");
+        }
+        else {
     	$phpid=$from->Session->get('name');
         $numRecv = count($this->clients) - 1;
                 $t=$this->getNodeTime();
@@ -84,16 +117,22 @@ class WsProvider implements MessageComponentInterface {
                     default:
                         # code...
                         break;
-                }
-
+               }
+        }
 
     }
 
     public function onClose(ConnectionInterface $conn) {
-    	$phpid=$conn->Session->get('name');
-        $this->clients->detach($conn);
-		echo $phpid.':'.implode(',',$this->positions[$phpid])."\n";
-        echo "Connection {$conn->resourceId} has disconnected\n";
+        $url = ($conn->WebSocket->request->getUrl());
+
+        if (substr($url,-4)==='/map')
+            echo "MAP !";
+        else {
+        	$phpid=$conn->Session->get('name');
+            $this->clients->detach($conn);
+    		echo $phpid.':'.implode(',',$this->positions[$phpid])."\n";
+            echo "Connection {$conn->resourceId} has disconnected\n";
+        }
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e) {

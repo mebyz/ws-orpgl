@@ -1,3 +1,12 @@
+
+login_check:
+    pattern:   /login_check
+    defaults: { _controller: MyOrpglBundle:Welcome:index }
+
 my_orpgl_homepage:
     path:     /run
     defaults: { _controller: MyOrpglBundle:Default:index }
+
+my_orpgl_map:
+    path:     /map
+    defaults: { _controller: MyOrpglBundle:Map:index }
