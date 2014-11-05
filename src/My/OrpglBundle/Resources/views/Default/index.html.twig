@@ -559,6 +559,25 @@ function setReadyState() {
 
 connectWs();
 
+  loadMap();
+
+function loadMap() {
+setInterval( function() {
+    $.getJSON('/app_dev.php/map2', function(data) {
+        var end ='';
+            $.each(data, function(index) {
+                var name = index;
+                var pos = data[index]//.split(',');
+                var posx=pos[0]/52
+                var posy=pos[2]/52
+                console.log("pos :"+pos[0]+" "+pos[2]);
+                $(".pos").remove();
+                end +='<div style="z-index:200000;position:absolute;top:'+posx+'px;left:'+posy+'px;color:red;" class="pos">&#8226;</div>';
+            });
+               $("#map").append(end);
+        });
+},1000);
+}
 
 
 </script>
@@ -579,7 +598,7 @@ connectWs();
      M10=5, M12=-0, M21=0, M22=5);
 }
 </style>
-<div style="position:absolute;top:0px;left:0px;"><div><!--clip: rect(0px,100px,100px,0px);">
+<div style="position:absolute;top:0px;left:0px;"><div id="map"><!--clip: rect(0px,100px,100px,0px);">
     <div class="zoom" id="zzoom">-->
         <img src="/orpgl-mapgen/images/tile_0_0.jpg" style="position:absolute;top:    0px;left:   0px;width:  20px;height:  20px;"/>
         <img src="/orpgl-mapgen/images/tile_0_1.jpg" style="position:absolute;top:    0px;left:   20px;width:  20px;height:  20px;"/>
@@ -690,7 +709,7 @@ connectWs();
         <img src="/orpgl-mapgen/images/tile_9_7.jpg" style="position:absolute;top:    180px;left:   140px;width:  20px;height:  20px;"/>
         <img src="/orpgl-mapgen/images/tile_9_8.jpg" style="position:absolute;top:    180px;left:   160px;width:  20px;height:  20px;"/>
         <img src="/orpgl-mapgen/images/tile_9_9.jpg" style="position:absolute;top:    180px;left:   180px;width:  20px;height:  20px;"/>
-        <div style="z-index:200000;position:absolute;top:-6px;left:-3px;color:red;" id="mpos">&#8226;</div>
+        <!--<div style="z-index:200000;position:absolute;top:-6px;left:-3px;color:red;" id="mpos">&#8226;</div>-->
 
     </div>
 </div>

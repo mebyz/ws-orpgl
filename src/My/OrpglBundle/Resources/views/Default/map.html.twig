@@ -24,19 +24,13 @@ setInterval( function() {
     $.getJSON('/app_dev.php/map2', function(data) {
         var end ='';
             $.each(data, function(index) {
-//                alert( index+" : "+data[index]);
-
                 var name = index;
                 var pos = data[index]//.split(',');
-
                 var posx=pos[0]/52
                 var posy=pos[2]/52
                 $(".pos").remove();
                 end +='<div style="z-index:200000;position:absolute;top:'+posx+'px;left:'+posy+'px;color:red;" class="pos">&#8226;</div>';
-
-
             });
-
                $("#map").append(end);
         });
 },1000);
