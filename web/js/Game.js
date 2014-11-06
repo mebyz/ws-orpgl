@@ -121,7 +121,7 @@ var Config = {
 
             if (natureArray[i].y>-40 && natureArray[i].y<80) {
 
-                var r = natureIndex[i];
+                var r = natureIndex[i]-2;
                 var child = this.Config.nature_models[r].clone();
                 child.scale.set(2,2,2);
                 child.name="nature_"+i;
