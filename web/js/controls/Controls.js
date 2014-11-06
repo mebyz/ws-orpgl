@@ -24,7 +24,7 @@ THREE.PointerLockControls = function(application) {
     var velocity = new THREE.Vector3();
 
     var PI_2 = Math.PI / 2;
-    var mousemov = false;
+    var mousemov = true ;
 
 
     var  projector = new THREE.Projector();
@@ -33,6 +33,7 @@ THREE.PointerLockControls = function(application) {
                 
                 mouseVector.x = 2 * (event.clientX / window.innerWidth) - 1;
                 mouseVector.y = 1 - 2 * ( event.clientY / window.innerHeight );                
+
         
         if(scope.enabled === false) {
             return;
@@ -48,28 +49,6 @@ THREE.PointerLockControls = function(application) {
         app.Config.pitchObject.rotation.x = Math.max(-PI_2, Math.min(PI_2, app.Config.pitchObject.rotation.x));
 }
 
-                vector.set( mouseVector.x, (mouseVector.y-1.5), 0.5 );
-                vector.unproject( application.Config.camera );
-
-                raycaster.ray.set( application.Config.yawObject.position, vector.sub( application.Config.yawObject.position ).normalize() );
-                
-                app.Config.mplane[0].position.y = app.Config.mline.position.y = application.Config.yawObject.position.y-15
-                var intersects = raycaster.intersectObjects(  application.Config.mplane );
-
-                if ( intersects.length > 0 ) {
-
-                                       console.log((mouseVector.x)+" "+(mouseVector.y-1.5)+" "+intersects[ 0 ])
-
-                    var intersect = intersects[ 0 ];
-
-                    rollOverMesh.position.x=intersect.point.x
-                    rollOverMesh.position.z=intersect.point.z
-                    rollOverMesh.position.y=getHeight(intersect.point.x,intersect.point.z,true);
-//                     .copy( intersect.point )//.add( intersect.face.normal );
-                    rollOverMesh.position.divideScalar( 20 ).floor().multiplyScalar( 20 ).addScalar( 10 );
-
-                }
-
                 //render();
 
     };
@@ -77,6 +56,9 @@ THREE.PointerLockControls = function(application) {
 
     if (!dragging)
         mousemov=true;
+var nm = rollOverMesh.clone();
+    nm.material=cubeMaterial2;
+    application.Config.scene.add(nm)
 
 /*        var raycaster = projector.pickingRay( mouseVector.clone(), app.Config.camera );
         var     intersects = raycaster.intersectObjects( app.Config.scene.children );
@@ -92,7 +74,7 @@ if (obj.material.color){//&& obj.position.distanceTo( app.Config.yawObject.posit
          event.preventDefault();
     };
     var onMouseUp = function(event) {
-mousemov=false
+//mousemov=false
     };
 
     var onKeyDown = function(event) {
