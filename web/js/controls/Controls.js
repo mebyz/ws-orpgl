@@ -52,7 +52,8 @@ THREE.PointerLockControls = function(application) {
                 vector.unproject( application.Config.camera );
 
                 raycaster.ray.set( application.Config.yawObject.position, vector.sub( application.Config.yawObject.position ).normalize() );
-
+                
+                app.Config.mplane[0].position.y = app.Config.mline.position.y = application.Config.yawObject.position.y-15
                 var intersects = raycaster.intersectObjects(  application.Config.mplane );
 
                 if ( intersects.length > 0 ) {
@@ -63,8 +64,9 @@ THREE.PointerLockControls = function(application) {
 
                     rollOverMesh.position.x=intersect.point.x
                     rollOverMesh.position.z=intersect.point.z
+                    rollOverMesh.position.y=getHeight(intersect.point.x,intersect.point.z,true);
 //                     .copy( intersect.point )//.add( intersect.face.normal );
-                    rollOverMesh.position.divideScalar( 50 ).floor().multiplyScalar( 50 ).addScalar( 25 );
+                    rollOverMesh.position.divideScalar( 20 ).floor().multiplyScalar( 20 ).addScalar( 10 );
 
                 }
 

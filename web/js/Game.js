@@ -24,6 +24,7 @@ var Config = {
         artefacts       : [],                           // such as scrools, potions..
         avatars         : [],                           // array of players
         mplane          : [],                           // voxel building grid
+        mline           : null,                         // voxel building lines helper
         skyUniforms     : null,                         // used by sky shader (day/night cycle)
         Sunlight        : null,                         // sun light  
         lensFlare       : null,                         // sun lensflare 
@@ -587,20 +588,20 @@ var initScene = function() {
         launchClouds(this);
 
 
-        rollOverGeo = new THREE.BoxGeometry( 50, 50, 50 );
+        rollOverGeo = new THREE.BoxGeometry( 20, 20, 20 );
         rollOverMaterial = new THREE.MeshBasicMaterial( { color: 0xff0000, opacity: 0.5, transparent: true } );
         rollOverMesh = new THREE.Mesh( rollOverGeo, rollOverMaterial );
         this.Config.scene.add( rollOverMesh );
 
         // cubes
 
-        cubeGeo = new THREE.BoxGeometry( 50, 50, 50 );
+        cubeGeo = new THREE.BoxGeometry( 20, 20, 20 );
         cubeMaterial = new THREE.MeshLambertMaterial( { color: 0xfeb74c, ambient: 0x00ff80, shading: THREE.FlatShading, map: THREE.ImageUtils.loadTexture( "textures/square-outline-textured.png" ) } );
         cubeMaterial.ambient = cubeMaterial.color;
 
         // grid
 
-        var size = 5000, step = 50;
+        var size = 5000, step = 20;
 
         var geometry = new THREE.Geometry();
 
@@ -619,7 +620,9 @@ var initScene = function() {
         var line = new THREE.Line( geometry, material );
         line.type = THREE.LinePieces;
         this.Config.scene.add( line );
+        line.visible = false;
 
+        this.Config.mline = line;
         //
 
         vector = new THREE.Vector3();
