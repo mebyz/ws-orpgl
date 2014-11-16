@@ -740,7 +740,7 @@ var MyMeshPhongMaterial = function(parameters) {
       material.uniforms.snowyTexture.value =snowyTexture;    
 
 
-      var geometry = new THREE.PlaneBufferGeometry( 1024, 1024, 32,32 );
+      var geometry = new THREE.PlaneBufferGeometry( 1024, 1024, 64,64 );
       //geometry
 
  var plane = new THREE.Mesh( geometry, material );
