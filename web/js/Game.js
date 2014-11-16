@@ -98,8 +98,8 @@ var Config = {
         this.Config.scene.add(this.Config.nature_models[this.Config.nature_models.length-5]);
         this.Config.scene.add(this.Config.nature_models[this.Config.nature_models.length-3]);
         this.Config.scene.add(this.Config.nature_models[this.Config.nature_models.length-1]);
+        
     };
-
     function loadTree(t,o) {
         var manager = new THREE.LoadingManager();
         manager.onProgress = function ( item, loaded, total ) {};
@@ -118,7 +118,9 @@ var Config = {
                     child.material.map = texture;
                     child.material.transparent = true;
                     child.material.alphaTest= 0.5;
+                    child.material.shading =THREE.NoShading;
                     child.material.side= THREE.DoubleSide;
+                    child.material.shininess=0;
                 }
             } );
             setTimeout(function() {this.Config.nature_models[object.id]=object;},3000);
@@ -181,7 +183,6 @@ var Config = {
         loadTree('/textures/flowers02.png','/models/buildings/grassfield4.obj')
         loadTree('/textures/flowers02.png','/models/buildings/grassfield2.obj')
 
-        setTimeout("initGrass();/*this.Config.character.setAnimation('stand');*/",5000);
 
         var config = {
 
@@ -368,27 +369,31 @@ this.Config.skyUniforms.bottomColor.value.b = e;
 if (app != undefined)
     this.Config.scene.fog.color.setRGB(e / 2, e / 2, e / 2);
 
-for (var i=0;i<100;i++) {
-   planes[i].material.uniforms.time.value = e;
-   if (planes[i].material.uniforms.time.value<0.2) planes[i].material.uniforms.time.value=0.2;
-}
+//for (var i=0;i<100;i++) {
+//   planes[i].material.uniforms.time.value = e;
+//   if (planes[i].material.uniforms.time.value<0.2) planes[i].material.uniforms.time.value=0.2;
+//}
 for(var n in this.Config.nature_models) {
-    this.Config.nature_models[n].children[0].material.color.r = e*2;
-    this.Config.nature_models[n].children[0].material.color.g = e*2;
-    this.Config.nature_models[n].children[0].material.color.b = e*2;
+//    this.Config.nature_models[n].children[0].material.color.r = 0.5+e*2;
+//    this.Config.nature_models[n].children[0].material.color.g = 0.5+e*2;
+//    this.Config.nature_models[n].children[0].material.color.b = 0.5+e*2+.2;
 }
 
 
 this.Config.Sunlight.position.x =  this.Config.yawObject.position.x+(Math.cos((milliseconds+10000) / 7000) * 3700);
 this.Config.lensFlare.position.x = this.Config.yawObject.position.x+(Math.cos((milliseconds+10000) / 7000) * 3700);
+this.Config.light.position.x = this.Config.yawObject.position.x+(Math.cos((milliseconds+10000) / 7000) * 3700);
 this.Config.Sunlight.position.y = (Math.sin((milliseconds+10000) / 7000) * 3700)+this.Config.yawObject.position.y;
 this.Config.lensFlare.position.y = (Math.sin((milliseconds+10000) / 7000) * 3700)+this.Config.yawObject.position.y;
+this.Config.light.position.y = (Math.sin((milliseconds+10000) / 7000) * 3700)+this.Config.yawObject.position.y;
 this.Config.Sunlight.position.z =  this.Config.yawObject.position.z;
 this.Config.lensFlare.position.z =  this.Config.yawObject.position.z;
+this.Config.light.position.z =  this.Config.yawObject.position.z;
 if ( this.Config.lensFlare.position.y < 50 || this.Config.lensFlare.position.y <this.Config.yawObject.position.y) { 
     this.Config.lensFlare.position.y = 10000;
+//    this.Config.light.visible = false;
 }
-
+//    this.Config.light.visible = true;
 this.Config.mirrorMesh.position.x=this.Config.yawObject.position.x;
 this.Config.mirrorMesh.position.z=this.Config.yawObject.position.z;
 this.Config.sky.position.x=this.Config.yawObject.position.x;
@@ -480,12 +485,13 @@ var initScene = function() {
         this.Config.scene.fog = new THREE.Fog(0xffffaa, 1, 5000);
         
         // LIGHTS
-        var hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
+        var hemiLight = new THREE.HemisphereLight(0xffffff,0xffffff, 0.6);
         hemiLight.color.setHSL(0.6, 1, 0.6);
         hemiLight.groundColor.setHSL(0.095, 1, 0.75);
         hemiLight.position.set(0, 500, 0);
         this.Config.scene.add(hemiLight);
 
+   
         this.Config.skyUniforms = {
             topColor   : { type: "c", value: new THREE.Color(0x0077ff) },
             bottomColor: { type: "c", value: new THREE.Color(0xffffff) },
@@ -573,6 +579,19 @@ var initScene = function() {
 
         var planeGeo = new THREE.PlaneBufferGeometry( 1024, 1024, 64,64 );
 
+var MyMeshPhongMaterial = function(parameters) {
+        this.fragmentShader = "void main() {}";
+        this.vertexShader = "void main() {}";
+        this.uniforms = {};
+        this.defines = {};
+        this.attributes = null;
+        THREE.MeshPhongMaterial.call(this, parameters);
+      };
+
+      MyMeshPhongMaterial.prototype = Object.create(THREE.MeshPhongMaterial.prototype);
+
+  
+
         var k = 0;
         for (var i=0;i<10;i++) {
             for (var j=0;j<10;j++){
@@ -580,39 +599,173 @@ var initScene = function() {
                 var imgPath = '/orpgl-mapgen/images/tile_'+j+'_'+i+'.jpg' ;
                 this.Config.imgTilePaths[k++] = imgPath;
                 
-                var texture = new loadImage(imgPath);
+                var texture =THREE.ImageUtils.loadTexture(imgPath);
                 
-                var uniforms = {
-                    heightMap:  { type: "t", value: texture },
-                    heightScale:        { type: "f", value: this.Config.heightScale },
-                    oceanTexture:   { type: "t", value: oceanTexture },
-                    sandyTexture:   { type: "t", value: sandyTexture },
-                    grassTexture:   { type: "t", value: grassTexture },
-                    rockyTexture:   { type: "t", value: rockyTexture },
-                    snowyTexture:   { type: "t", value: snowyTexture },
-                    fogColor:    { type: "c", value: 0xaaaaaa },
-                    fogNear:     { type: "f", value: 1 },
-                    fogFar:      { type: "f", value: 10 },
-                    time:         { type: "f", value: 1 },
-                };
 
-                var material = new THREE.ShaderMaterial( 
-                {
-                    uniforms: uniforms,
-                    vertexShader:   tiledVertexShader,
-                    fragmentShader: tiledFragmentShader,
-                    fog:true
-                }   );
+      var material = new MyMeshPhongMaterial({
+        color: 0xffcccc, specular: 0xfffcccc, shininess:5, ambient: 0xffcccc,
+        map: texture,
+        uniforms: THREE.UniformsUtils.merge([
+          THREE.ShaderLib['phong'].uniforms,
+          { tNoise: { type:'t', value:null },
+  			oceanTexture:   { type: "t", value: null },
+            sandyTexture:   { type: "t", value: null },
+            grassTexture:   { type: "t", value: null },
+            rockyTexture:   { type: "t", value: null },
+            snowyTexture:   { type: "t", value: null },
+          }
+        ]),
 
-                var plane = new THREE.Mesh( planeGeo, material );
+        vertexShader: [
+
+      "#define PHONG",
+
+      "uniform sampler2D tNoise;",
+      "varying vec3 vViewPosition;",
+      "varying vec3 vNormal;",
+
+"varying float vAmount;",
+"varying vec2 vUV;",
+
+      THREE.ShaderChunk[ "map_pars_vertex" ],
+      THREE.ShaderChunk[ "lightmap_pars_vertex" ],
+      THREE.ShaderChunk[ "envmap_pars_vertex" ],
+      THREE.ShaderChunk[ "lights_phong_pars_vertex" ],
+      THREE.ShaderChunk[ "color_pars_vertex" ],
+      THREE.ShaderChunk[ "morphtarget_pars_vertex" ],
+      THREE.ShaderChunk[ "skinning_pars_vertex" ],
+      THREE.ShaderChunk[ "shadowmap_pars_vertex" ],
+      THREE.ShaderChunk[ "logdepthbuf_pars_vertex" ],
+
+      "void main() {",
+
+        THREE.ShaderChunk[ "map_vertex" ],
+        THREE.ShaderChunk[ "lightmap_vertex" ],
+        THREE.ShaderChunk[ "color_vertex" ],
+
+        THREE.ShaderChunk[ "morphnormal_vertex" ],
+        THREE.ShaderChunk[ "skinbase_vertex" ],
+        THREE.ShaderChunk[ "skinnormal_vertex" ],
+        THREE.ShaderChunk[ "defaultnormal_vertex" ],
+"vUV = uv;",
+		"vec4 tx = texture2D( tNoise, vUV);",
+		"vAmount = tx.g;",
+       " vNormal = normalize( transformedNormal );",
+        THREE.ShaderChunk[ "morphtarget_vertex" ],
+        THREE.ShaderChunk[ "skinning_vertex" ],
+        THREE.ShaderChunk[ "default_vertex" ],
+        THREE.ShaderChunk[ "logdepthbuf_vertex" ],
+  
+        " vViewPosition = mvPosition.xyz;",
+
+        ' gl_Position.y += texture2D(tNoise, vUv).x*1000.0;',
+"vec3 newPosition = position + normal  * vAmount * 400.0;",
+
+"gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );",
+
+        THREE.ShaderChunk[ "worldpos_vertex" ],
+        THREE.ShaderChunk[ "envmap_vertex" ],
+        THREE.ShaderChunk[ "lights_phong_vertex" ],
+        THREE.ShaderChunk[ "shadowmap_vertex" ],
+
+      "}"
+
+    ].join("\n"),
+
+        fragmentShader:[
+          "uniform vec3 diffuse;",
+          "uniform float opacity;",
+
+          "uniform vec3 ambient;",
+          "uniform vec3 emissive;",
+          "uniform vec3 specular;",
+          "uniform float shininess;",
+
+"varying vec2 vUV;",
+"varying float vAmount;",
+
+          THREE.ShaderChunk[ "color_pars_fragment" ],
+          THREE.ShaderChunk[ "map_pars_fragment" ],
+          THREE.ShaderChunk[ "lightmap_pars_fragment" ],
+          THREE.ShaderChunk[ "envmap_pars_fragment" ],
+          THREE.ShaderChunk[ "fog_pars_fragment" ],
+          THREE.ShaderChunk[ "lights_phong_pars_fragment" ],
+          THREE.ShaderChunk[ "shadowmap_pars_fragment" ],
+          THREE.ShaderChunk[ "bumpmap_pars_fragment" ],
+          THREE.ShaderChunk[ "normalmap_pars_fragment" ],
+          THREE.ShaderChunk[ "specularmap_pars_fragment" ],
+
+          "uniform sampler2D tNoise;",
+
+          "uniform sampler2D oceanTexture;",
+"uniform sampler2D sandyTexture;",
+"uniform sampler2D grassTexture;",
+"uniform sampler2D rockyTexture;",
+"uniform sampler2D snowyTexture;",
+          "void main() {",
+
+"vec4 water = (smoothstep(0.01, 0.20, vAmount) - smoothstep(0.16, 0.20, vAmount)) * texture2D( oceanTexture, vUV * 10.0 );",
+"vec4 sandy = (smoothstep(0.14, 0.20, vAmount) - smoothstep(0.22, 0.28, vAmount)) * texture2D( sandyTexture, vUV * 10.0 );",
+"vec4 grass = (smoothstep(0.22, 0.28, vAmount) - smoothstep(0.30, 0.40, vAmount)) * texture2D( grassTexture, vUV * 20.0 );",
+"vec4 rocky = (smoothstep(0.30, 0.40, vAmount) - smoothstep(0.50, 0.60, vAmount)) * texture2D( rockyTexture, vUV * 20.0 );",
+"vec4 snowy = (smoothstep(0.40, 0.75, vAmount))                                   * texture2D( snowyTexture, vUV * 10.0 );",
+"gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0) + water  + sandy  + grass + rocky  + snowy ; //, 1.0);",
+"gl_FragColor.b =0.1;",
+       //      + noise * 0.1);",
+
+            THREE.ShaderChunk[ "alphatest_fragment" ],
+            THREE.ShaderChunk[ "specularmap_fragment" ],
+
+            THREE.ShaderChunk[ "lights_phong_fragment" ],
+
+            THREE.ShaderChunk[ "lightmap_fragment" ],
+            THREE.ShaderChunk[ "color_fragment" ],
+            THREE.ShaderChunk[ "envmap_fragment" ],
+            THREE.ShaderChunk[ "shadowmap_fragment" ],
+
+            THREE.ShaderChunk[ "linear_to_gamma_fragment" ],
+
+            THREE.ShaderChunk[ "fog_fragment" ],
+
+          "}"
+        ].join('\n'),
+      });
+      material.uniforms.tNoise.value =
+        texture;
+
+      material.uniforms.oceanTexture.value =oceanTexture;
+      material.uniforms.sandyTexture.value =sandyTexture;
+      material.uniforms.grassTexture.value =grassTexture;
+      material.uniforms.rockyTexture.value =rockyTexture;
+      material.uniforms.snowyTexture.value =snowyTexture;    
+
+
+      var geometry = new THREE.PlaneBufferGeometry( 1024, 1024, 32,32 );
+      //geometry
+
+ var plane = new THREE.Mesh( geometry, material );
                 plane.rotation.x = -Math.PI / 2;
                 plane.position.y = -100;
                 plane.position.z = (1007*j)+512;
                 plane.position.x = (1007*i)+512;
                 this.Config.scene.add( plane );        
                 planes.push(plane);
+
+
             }
         }
+
+      var oldInitMaterial = renderer.initMaterial;
+      renderer.initMaterial = function(material, lights, fog, object) {
+        if(material instanceof MyMeshPhongMaterial) {
+          var dummy = {};
+          for(var i in material) dummy[i] = material[i];
+          oldInitMaterial.call(this, dummy, lights, fog, object);
+          for(var i in dummy) material[i] = dummy[i];
+        } else {
+          oldInitMaterial.call(this, material, lights, fog, object);
+        }
+      };
 
         this.Config.renderer.setClearColor(0xFFFFFF);
         //CLOUDS
@@ -667,7 +820,9 @@ var initScene = function() {
         
         //play('/js/audio/jasmid/bjorn__lynne-_the_fairy_woods.mid')
 
-        setTimeout("loadNature()",5000)
+        setTimeout("loadNature();initGrass();",5000)
+        setTimeout("initGrass();/*this.Config.character.setAnimation('stand');*/",15000);
+
         animate();
     };
 

@@ -20,11 +20,9 @@ var tiledVertexShader =
 var tiledFragmentShader = [
 "uniform sampler2D oceanTexture;",
 "uniform sampler2D sandyTexture;",
-"uniform float time;",
 "uniform sampler2D grassTexture;",
 "uniform sampler2D rockyTexture;",
 "uniform sampler2D snowyTexture;",
-"uniform sampler2D heightMap;",
 
 "varying vec2 vUV;",
 THREE.ShaderChunk[ "fog_pars_fragment" ],
@@ -37,8 +35,7 @@ THREE.ShaderChunk[ "fog_pars_fragment" ],
 "vec4 grass = (smoothstep(0.22, 0.28, vAmount) - smoothstep(0.30, 0.40, vAmount)) * texture2D( grassTexture, vUV * 20.0 );",
 "vec4 rocky = (smoothstep(0.30, 0.40, vAmount) - smoothstep(0.50, 0.60, vAmount)) * texture2D( rockyTexture, vUV * 20.0 );",
 "vec4 snowy = (smoothstep(0.40, 0.75, vAmount))                                   * texture2D( snowyTexture, vUV * 10.0 );",
-"vec4 tx = texture2D( heightMap, vUV);",  
-"gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0) + water *time + sandy *time + grass *time + rocky *time + snowy*time ; //, 1.0);",
+"gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0) + water  + sandy  + grass + rocky  + snowy ; //, 1.0);",
 THREE.ShaderChunk[ "fog_fragment" ],
 "}"
 ].join("\n");

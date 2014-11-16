@@ -17673,11 +17673,12 @@ THREE.ShaderLib = {
  * @author alteredq / http://alteredqualia.com/
  * @author szimek / https://github.com/szimek/
  */
+ var renderer=null;
 
 THREE.WebGLRenderer = function ( parameters ) {
 
 	console.log( 'THREE.WebGLRenderer', THREE.REVISION );
-
+renderer=this;
 	parameters = parameters || {};
 
 	var _canvas = parameters.canvas !== undefined ? parameters.canvas : document.createElement( 'canvas' ),
@@ -21792,8 +21793,8 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 	// Materials
 
-	function initMaterial( material, lights, fog, object ) {
-
+	this.initMaterial = function ( material, lights, fog, object ) {
+console.log("pokpkpk")
 		material.addEventListener( 'dispose', onMaterialDispose );
 
 		var shaderID;
@@ -22038,7 +22039,7 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 			if ( material.program ) deallocateMaterial( material );
 
-			initMaterial( material, lights, fog, object );
+			renderer.initMaterial( material, lights, fog, object );
 			material.needsUpdate = false;
 
 		}
@@ -24091,12 +24092,243 @@ THREE.WebGLRenderer = function ( parameters ) {
 
 	// DEPRECATED
 	
-	this.initMaterial = function () {
+	this.initMaterial = function ( material, lights, fog, object ) {
 
-		console.warn( 'THREE.WebGLRenderer: .initMaterial() has been removed.' );
+		material.addEventListener( 'dispose', onMaterialDispose );
 
-	};
+		var shaderID;
 
+		if ( material instanceof THREE.MeshDepthMaterial ) {
+
+			shaderID = 'depth';
+
+		} else if ( material instanceof THREE.MeshNormalMaterial ) {
+
+			shaderID = 'normal';
+
+		} else if ( material instanceof THREE.MeshBasicMaterial ) {
+
+			shaderID = 'basic';
+
+		} else if ( material instanceof THREE.MeshLambertMaterial ) {
+
+			shaderID = 'lambert';
+
+		} else if ( material instanceof THREE.MeshPhongMaterial ) {
+
+			shaderID = 'phong';
+
+		} else if ( material instanceof THREE.LineBasicMaterial ) {
+
+			shaderID = 'basic';
+
+		} else if ( material instanceof THREE.LineDashedMaterial ) {
+
+			shaderID = 'dashed';
+
+		} else if ( material instanceof THREE.PointCloudMaterial ) {
+
+			shaderID = 'particle_basic';
+
+		}
+
+		if ( shaderID ) {
+
+			var shader = THREE.ShaderLib[ shaderID ];
+
+			material.__webglShader = {
+				uniforms: THREE.UniformsUtils.clone( shader.uniforms ),
+				vertexShader: shader.vertexShader,
+				fragmentShader: shader.fragmentShader
+			}
+
+		} else {
+
+			material.__webglShader = {
+				uniforms: material.uniforms,
+				vertexShader: material.vertexShader,
+				fragmentShader: material.fragmentShader
+			}
+
+		}
+
+		// heuristics to create shader parameters according to lights in the scene
+		// (not to blow over maxLights budget)
+
+		var maxLightCount = allocateLights( lights );
+		var maxShadows = allocateShadows( lights );
+		var maxBones = allocateBones( object );
+
+		var parameters = {
+
+			precision: _precision,
+			supportsVertexTextures: _supportsVertexTextures,
+
+			map: !! material.map,
+			envMap: !! material.envMap,
+			lightMap: !! material.lightMap,
+			bumpMap: !! material.bumpMap,
+			normalMap: !! material.normalMap,
+			specularMap: !! material.specularMap,
+			alphaMap: !! material.alphaMap,
+
+			vertexColors: material.vertexColors,
+
+			fog: fog,
+			useFog: material.fog,
+			fogExp: fog instanceof THREE.FogExp2,
+
+			sizeAttenuation: material.sizeAttenuation,
+			logarithmicDepthBuffer: _logarithmicDepthBuffer,
+
+			skinning: material.skinning,
+			maxBones: maxBones,
+			useVertexTexture: _supportsBoneTextures && object && object.skeleton && object.skeleton.useVertexTexture,
+
+			morphTargets: material.morphTargets,
+			morphNormals: material.morphNormals,
+			maxMorphTargets: _this.maxMorphTargets,
+			maxMorphNormals: _this.maxMorphNormals,
+
+			maxDirLights: maxLightCount.directional,
+			maxPointLights: maxLightCount.point,
+			maxSpotLights: maxLightCount.spot,
+			maxHemiLights: maxLightCount.hemi,
+
+			maxShadows: maxShadows,
+			shadowMapEnabled: _this.shadowMapEnabled && object.receiveShadow && maxShadows > 0,
+			shadowMapType: _this.shadowMapType,
+			shadowMapDebug: _this.shadowMapDebug,
+			shadowMapCascade: _this.shadowMapCascade,
+
+			alphaTest: material.alphaTest,
+			metal: material.metal,
+			wrapAround: material.wrapAround,
+			doubleSided: material.side === THREE.DoubleSide,
+			flipSided: material.side === THREE.BackSide
+
+		};
+
+		// Generate code
+
+		var chunks = [];
+
+		if ( shaderID ) {
+
+			chunks.push( shaderID );
+
+		} else {
+
+			chunks.push( material.fragmentShader );
+			chunks.push( material.vertexShader );
+
+		}
+
+		if ( material.defines !== undefined ) {
+
+			for ( var name in material.defines ) {
+
+				chunks.push( name );
+				chunks.push( material.defines[ name ] );
+
+			}
+
+		}
+
+		for ( var name in parameters ) {
+
+			chunks.push( name );
+			chunks.push( parameters[ name ] );
+
+		}
+
+		var code = chunks.join();
+
+		var program;
+
+		// Check if code has been already compiled
+
+		for ( var p = 0, pl = _programs.length; p < pl; p ++ ) {
+
+			var programInfo = _programs[ p ];
+
+			if ( programInfo.code === code ) {
+
+				program = programInfo;
+				program.usedTimes ++;
+
+				break;
+
+			}
+
+		}
+
+		if ( program === undefined ) {
+
+			program = new THREE.WebGLProgram( _this, code, material, parameters );
+			_programs.push( program );
+
+			_this.info.memory.programs = _programs.length;
+
+		}
+
+		material.program = program;
+
+		var attributes = program.attributes;
+
+		if ( material.morphTargets ) {
+
+			material.numSupportedMorphTargets = 0;
+
+			var id, base = 'morphTarget';
+
+			for ( var i = 0; i < _this.maxMorphTargets; i ++ ) {
+
+				id = base + i;
+
+				if ( attributes[ id ] >= 0 ) {
+
+					material.numSupportedMorphTargets ++;
+
+				}
+
+			}
+
+		}
+
+		if ( material.morphNormals ) {
+
+			material.numSupportedMorphNormals = 0;
+
+			var id, base = 'morphNormal';
+
+			for ( i = 0; i < _this.maxMorphNormals; i ++ ) {
+
+				id = base + i;
+
+				if ( attributes[ id ] >= 0 ) {
+
+					material.numSupportedMorphNormals ++;
+
+				}
+
+			}
+
+		}
+
+		material.uniformsList = [];
+
+		for ( var u in material.__webglShader.uniforms ) {
+
+			var location = material.program.uniforms[ u ];
+
+			if ( location ) {
+				material.uniformsList.push( [ material.__webglShader.uniforms[ u ], location ] );
+			}
+
+		}
+
+	}
 	this.addPrePlugin = function () {
 
 		console.warn( 'THREE.WebGLRenderer: .addPrePlugin() has been removed.' );
@@ -27290,10 +27522,10 @@ THREE.Curve.Utils = {
 
 		// To check if my formulas are correct
 
-		var h00 = 6 * t * t - 6 * t; 	// derived from 2t^3 − 3t^2 + 1
-		var h10 = 3 * t * t - 4 * t + 1; // t^3 − 2t^2 + t
-		var h01 = - 6 * t * t + 6 * t; 	// − 2t3 + 3t2
-		var h11 = 3 * t * t - 2 * t;	// t3 − t2
+		var h00 = 6 * t * t - 6 * t; 	// derived from 2t^3 âˆ’ 3t^2 + 1
+		var h10 = 3 * t * t - 4 * t + 1; // t^3 âˆ’ 2t^2 + t
+		var h01 = - 6 * t * t + 6 * t; 	// âˆ’ 2t3 + 3t2
+		var h11 = 3 * t * t - 2 * t;	// t3 âˆ’ t2
 
 		return h00 + h10 + h01 + h11;
 
@@ -32745,21 +32977,21 @@ THREE.DodecahedronGeometry = function ( radius, detail ) {
 
 	var vertices = [
 
-		// (±1, ±1, ±1)
+		// (Â±1, Â±1, Â±1)
 		-1, -1, -1,    -1, -1,  1,
 		-1,  1, -1,    -1,  1,  1,
 		 1, -1, -1,     1, -1,  1,
 		 1,  1, -1,     1,  1,  1,
 
-		// (0, ±1/φ, ±φ)
+		// (0, Â±1/Ï†, Â±Ï†)
 		 0, -r, -t,     0, -r,  t,
 		 0,  r, -t,     0,  r,  t,
 
-		// (±1/φ, ±φ, 0)
+		// (Â±1/Ï†, Â±Ï†, 0)
 		-r, -t,  0,    -r,  t,  0,
 		 r, -t,  0,     r,  t,  0,
 
-		// (±φ, 0, ±1/φ)
+		// (Â±Ï†, 0, Â±1/Ï†)
 		-t,  0, -r,     t,  0, -r,
 		-t,  0,  r,     t,  0,  r
 	];
