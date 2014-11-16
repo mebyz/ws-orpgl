@@ -69,6 +69,8 @@ function addLight(h, s, l, x, y, z,texture,application) {
     application.Config.scene.add(application.Config.lensFlare);
     application.Config.light = new THREE.DirectionalLight(0xaaaaaa,1);
       application.Config.light.position = new THREE.Vector3(-50,-50,-50);
+
+            
        this.Config.scene.add(application.Config.light);
 
 

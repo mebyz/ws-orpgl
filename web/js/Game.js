@@ -118,9 +118,7 @@ var Config = {
                     child.material.map = texture;
                     child.material.transparent = true;
                     child.material.alphaTest= 0.5;
-                    child.material.shading =THREE.NoShading;
                     child.material.side= THREE.DoubleSide;
-                    child.material.shininess=0;
                 }
             } );
             setTimeout(function() {this.Config.nature_models[object.id]=object;},3000);
@@ -374,9 +372,9 @@ if (app != undefined)
 //   if (planes[i].material.uniforms.time.value<0.2) planes[i].material.uniforms.time.value=0.2;
 //}
 for(var n in this.Config.nature_models) {
-//    this.Config.nature_models[n].children[0].material.color.r = 0.5+e*2;
-//    this.Config.nature_models[n].children[0].material.color.g = 0.5+e*2;
-//    this.Config.nature_models[n].children[0].material.color.b = 0.5+e*2+.2;
+    this.Config.nature_models[n].children[0].material.color.r = e*2;
+    this.Config.nature_models[n].children[0].material.color.g = e*2;
+    this.Config.nature_models[n].children[0].material.color.b = e*2+.2;
 }
 
 
@@ -414,7 +412,7 @@ this.Config.water.material.uniforms.waterColor.value.r=e
 this.Config.water.material.uniforms.waterColor.value.g=e
 this.Config.water.material.uniforms.waterColor.value.b=e
 
-this.Config.water.render();
+//this.Config.water.render();
 
 if (milliseconds%3==0)
     moveCube();
@@ -603,7 +601,7 @@ var MyMeshPhongMaterial = function(parameters) {
                 
 
       var material = new MyMeshPhongMaterial({
-        color: 0xffcccc, specular: 0xfffcccc, shininess:5, ambient: 0xffcccc,
+        color: 0xffcccc, specular: 0xfffcccc, shininess:1, ambient: 0xffcccc,
         map: texture,
         uniforms: THREE.UniformsUtils.merge([
           THREE.ShaderLib['phong'].uniforms,
@@ -710,7 +708,7 @@ var MyMeshPhongMaterial = function(parameters) {
 "vec4 rocky = (smoothstep(0.30, 0.40, vAmount) - smoothstep(0.50, 0.60, vAmount)) * texture2D( rockyTexture, vUV * 20.0 );",
 "vec4 snowy = (smoothstep(0.40, 0.75, vAmount))                                   * texture2D( snowyTexture, vUV * 10.0 );",
 "gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0) + water  + sandy  + grass + rocky  + snowy ; //, 1.0);",
-"gl_FragColor.b =0.1;",
+
        //      + noise * 0.1);",
 
             THREE.ShaderChunk[ "alphatest_fragment" ],
@@ -740,7 +738,7 @@ var MyMeshPhongMaterial = function(parameters) {
       material.uniforms.snowyTexture.value =snowyTexture;    
 
 
-      var geometry = new THREE.PlaneBufferGeometry( 1024, 1024, 64,64 );
+      var geometry = new THREE.PlaneBufferGeometry( 1024, 1024, 32,32 );
       //geometry
 
  var plane = new THREE.Mesh( geometry, material );

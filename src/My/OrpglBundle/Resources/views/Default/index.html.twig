@@ -97,52 +97,50 @@
 
     #health, #ammo, #log, #chat,#clock  {
         position: absolute;
-        border: 3px solid #FFF;
+        border: 1px solid #ccc;
         border-radius: 5px;
-        color: #FFF;
+        color: #eee;
         font-family: arial;
     }
 
     #health {
-        bottom: 10px;
-        left: 10px;
+        top: 0px;
+        right: 10px;
         background: #AA3333;
-        font-size: 20pt;
+        font-size: 10pt;
         font-weight: bold;
         padding: 5px;
     }
 
     #ammo {
-        bottom: 10px;
+        top: 30px;
         right: 10px;
         background: #3333AA;
-        font-size: 20pt;
+        font-size: 10pt;
         font-weight: bold;
         padding: 5px;
     } 
     #clock {
-        bottom: 50px;
+        top: 60px;
         right: 10px;
         background: #3333AA;
-        font-size: 20pt;
+        font-size: 10pt;
         font-weight: bold;
         padding: 5px;
     }
 
     #log {
-        top: 10px;
+        top: 90px;
         right: 10px;
         background: #33AA33;
         width: 200px;
-        height: 50px;
         font-size: 10px;
     }
     #chat {
-        top: 100px;
+        top: 120px;
         right: 10px;
         background: #33AA33;
         width: 200px;
-        height: 50px;
         font-size: 10px;
     }
 
@@ -168,7 +166,7 @@
     .transparent #chat {
         background: rgba(20, 120, 20, 0.5);
     }
-    @-moz-keyframes heartbeat {
+    /*@-moz-keyframes heartbeat {
         0% { margin-bottom: 0; }
 
         10% { margin-bottom: 10px; }
@@ -200,7 +198,7 @@
         -moz-animation-duration: 10s;
         -moz-animation-name: heartbeat;
         -moz-animation-iteration-count: infinite;
-    }
+    }*/
 
     body, html {height:100%;}
 
