@@ -16,8 +16,8 @@ function getHeight(x,z,cam){
         if(hh!=null) {
             h = parseInt(hh);
         } else {
-            var tileX = Math.abs(Math.round((x-512)/1007)%10);
-            var tileZ = Math.abs(-Math.round(-(z-512)/1007)%10);
+            var tileX = Math.abs(Math.round((x-1024)/2038)%10);
+            var tileZ = Math.abs(-Math.round(-(z-1024)/2038)%10);
             var idx = tileZ + tileX*10; 
             var ctx = document.getElementById('tile_'+tileX+'_'+tileZ).getContext('2d');
             ctx.imageSmoothingEnabled = false;
@@ -31,8 +31,8 @@ function getHeight(x,z,cam){
             var imageData = ctx.getImageData(0, 0, 512,512);
 
 
-            var imgX = (Math.abs(Math.floor(((x-tileX*1007)/2))))%508+1;
-            var imgZ = (Math.abs(Math.floor(((z-tileZ*1007)/2))))%508+1;
+            var imgX = (Math.abs(Math.floor(((x-tileX*2038)/2))))%1020+1;
+            var imgZ = (Math.abs(Math.floor(((z-tileZ*2038)/2))))%1020+1;
 
 
             var index = 4 * (imgZ * 512 + imgX);

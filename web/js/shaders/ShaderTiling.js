@@ -83,7 +83,7 @@ var tiledVertexShader2= [
         " vViewPosition = mvPosition.xyz;",
 
         ' gl_Position.y += texture2D(tNoise, vUv).x*1000.0;',
-"vec3 newPosition = position + normal  * vAmount * 600.0;",
+"vec3 newPosition = position + normal  * vAmount * 400.0;",
 
 "gl_Position = projectionMatrix * modelViewMatrix * vec4( newPosition, 1.0 );",
 

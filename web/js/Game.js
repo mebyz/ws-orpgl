@@ -13,7 +13,7 @@ var Config = {
         run             : initScene,                    // run app based on config
         myPos           : { 'x': 0, 'y': 2, 'z': 0},    // player pos
         //lastPosition    : [],                         
-        heightScale     : 600.0,                        // terrain tile height scale
+        heightScale     : 400.0,                        // terrain tile height scale
         currentTile     : -1,                           // player pos current tile
         frustum         : null,                         // camera frustum
         renderer        : null,                         // 3d renderer
