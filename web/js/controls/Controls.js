@@ -245,7 +245,7 @@ if (obj.material.color){//&& obj.position.distanceTo( app.Config.yawObject.posit
         app.Config.yawObject.translateX(velocity.x);
         app.Config.yawObject.translateZ(velocity.z);
 
-        var height = getHeight(app.Config.yawObject.position.x,app.Config.yawObject.position.z,true)+1;
+        var height = getHeight(app.Config.yawObject.position.x,app.Config.yawObject.position.z,true)-2;
             app.Config.yawObject.position.y =height+5;
         if (height<=-64 && app.Config.yawObject.position.x != 0 && app.Config.yawObject.position.z!=0) {
             if(!app.Config.underwaterInterval) {
