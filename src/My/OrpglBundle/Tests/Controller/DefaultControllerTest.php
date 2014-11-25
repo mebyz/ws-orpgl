@@ -8,10 +8,16 @@ class DefaultControllerTest extends WebTestCase
 {
     public function testIndex()
     {
-        $client = static::createClient();
 
-        $crawler = $client->request('GET', '/hello/Fabien');
+$ch = curl_init("http://10.0.2.2:8080/app_dev.php/login_check");
 
-        $this->assertTrue($crawler->filter('html:contains("Hello Fabien")')->count() > 0);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+//curl_setopt($ch, CURLOPT_FILE, $fp);
+//curl_setopt($ch, CURLOPT_HEADER, 0);
+
+$result = curl_exec($ch);
+//var_dump(stristr($result,"SERVER"));
+//curl_close($ch);
+        $this->assertNotFalse(stristr($result,"SERVER IS DOWN"));
     }
 }
